@@ -114,5 +114,5 @@ def getScanResponse(query):
     if validateBarcode(qs['c'][0]):
         result = getBarcodeData(qs['c'][0])
     if len(result) == 0:
-        return {'error':'No results found!'}'
+        return {'error':'No results found!'}
     return buildScanResponse(result)

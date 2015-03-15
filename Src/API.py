@@ -47,7 +47,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 sendResponse(self, 200, {'Content-Type':'application/xml'}, weather.getWeatherResponse(query))
                 return
             elif path.endswith("code"):
-                sendResponse(self, 200, {'Content-Type':'application/xml'}, barcode.getScanResponse(query))
+                sendResponse(self, 200, {'Content-Type':'application/json'}, barcode.getScanResponse(query))
                 return
             else:
                 send404(self, path)
