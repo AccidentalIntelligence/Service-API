@@ -1,0 +1,3 @@
+[submodule "Src/modules/bcw"]
+	path = Src/modules/bcw
+	url = https://github.com/AccidentalIntelligence/BCW_Server.git

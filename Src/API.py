@@ -1,6 +1,6 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import modules.weather.api as weather
-import modules.barcode.api as barcode
+import modules.bcw.api as barcode
 import time
 import sys
 import logging
@@ -54,7 +54,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 return
         except IOError as details:
             self.send_error(404, 'IOError: '+str(details))
-                
+
 
     def do_POST(self):
         pass
@@ -68,7 +68,7 @@ class APIServer(HTTPServer):
 def main(argv):
     global port
     logging.basicConfig(filename=log_file, format=log_format, datefmt=log_date_format, level=log_level)
-    
+
     try:
         server = APIServer(port)
         logging.info('Started API Server on port: '+str(port))
