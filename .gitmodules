@@ -1,3 +1,6 @@
 [submodule "Src/modules/bcw"]
 	path = Src/modules/bcw
 	url = https://github.com/AccidentalIntelligence/BCW_Server.git
+[submodule "Src/modules/GrogServer"]
+	path = Src/modules/GrogServer
+	url = https://github.com/AccidentalIntelligence/GrogServer.git
