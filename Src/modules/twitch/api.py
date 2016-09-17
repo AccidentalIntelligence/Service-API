@@ -23,6 +23,7 @@ def storeStatus(data, when):
     params = (data['channel'], data['live'], data['viewers'], data['game'], when)
 
     logging.debug(query)
+    logging.debug(params)
 
     c.execute(query, params)
     db.close()
