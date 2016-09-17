@@ -51,7 +51,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 sendResponse(self, 200, {'Content-Type':'application/json'}, barcode.getScanResponse(query))
                 return
             elif path.endswith("twitch"):
-                sendResponse(self, 200, {'Content-Type':'application/json'}, twitch.getTwitchResponse(query))
+                sendResponse(self, 200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'http://capnflint.com'}, twitch.getTwitchResponse(query))
                 return
             else:
                 send404(self, path)
