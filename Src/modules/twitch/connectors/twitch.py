@@ -37,13 +37,14 @@ def getStreamAtOffset(game, offset):
         response = urllib2.urlopen(url)
         data = json.load(response)
         logging.debug(data)
-        if 'name' in data:
-            return getStreamStatus(data['name'])
+        stream = data['streams'][0]
+        if 'name' in stream:
+            return getStreamStatus(stream['name'])
         else:
-            return '{"error":"Error getting random stream."}'
+            return {"error":"Error getting random stream."}
 
     except urllib2.URLError:
-        return '{"error":"Unable to connect to Twitch API."}'
+        return {"error":"Unable to connect to Twitch API."}
 
 def getStreamCount(game):
     url = "https://api.twitch.tv/kraken/streams/?game={g}&client_id={client_id}".format(g=game, client_id=config.client_id)
