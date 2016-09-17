@@ -61,7 +61,7 @@ def getStreamCount(game):
 
 def getRandomStream(game):
     count = connector.getStreamCount(game)
-    offset = random.randrange(count)
+    offset = random.randrange(count-100)
     result = connector.getStreamAtOffset(game, offset)
     return result
 
