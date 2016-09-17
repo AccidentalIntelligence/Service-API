@@ -73,10 +73,10 @@ def getValues(dic, keys):
 
 def getTwitchResponse(query):
     if query == "":
-        return "{'error':'empty query'}"
+        return '{"error":"empty query"}'
     qs = cgi.parse_qs(query)
     if not 'u' in qs:
-        return "{'error':'missing user token'}"
+        return '{"error":"missing user token"}'
     if not 'a' in qs:
         return '{"error":"missing action type"}'
     data_req = qs['a'][0]
@@ -85,7 +85,7 @@ def getTwitchResponse(query):
     if data_req == 'status':
         logging.info("Action requested: status")
         if not 'q' in qs:
-            return "{'error':'missing query string'}"
+            return '{"error":"missing query string"}'
         query = qs['q'][0]
         result = getStreamStatus(query)
         return json.dumps(result)
