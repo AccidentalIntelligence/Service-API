@@ -53,8 +53,16 @@ def getStreamStatus(channel):
 
     return result
 
+def getStreamCount():
+    result = {}
+    result['count'] = connector.getStreamCount()
+    return result
 
-
+def getValues(dic, keys):
+    ret = {}
+    for key in keys:
+        ret['key'] = dic['key']
+    return ret
 
 def getTwitchResponse(query):
     if query == "":
@@ -62,7 +70,19 @@ def getTwitchResponse(query):
     qs = cgi.parse_qs(query)
     if not 'u' in qs:
         return "{'error':'missing user token'}"
-    if not 'c' in qs:
-        return "{'error':'missing query string'}"
-    result = getStreamStatus(qs['c'][0])
-    return json.dumps(result)
+    if not 'a' in qs:
+        return '{"error":"missing action type"}'
+    data_req = qs['a'][0]
+
+    # status request of a given channel
+    if data_req == 'status':
+        if not 'q' in qs:
+            return "{'error':'missing query string'}"
+        query = qs['q'][0]
+        result = getStreamStatus(query)
+        return json.dumps(result)
+
+    # count of all live streams
+    elif data_req == 'count':
+        result = getStreamCount()
+        return json.dumps(result)
