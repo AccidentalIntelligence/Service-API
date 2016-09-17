@@ -34,7 +34,7 @@ def storeStatus(data, when):
 
 def getStreamStatus(channel):
     db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
-    c = db.cursor(MySQLdb.cursor.DictCursor)
+    c = db.cursor(MySQLdb.cursors.DictCursor)
     c.execute("SELECT * FROM channel_status WHERE channel=%s", (channel,))
     res = c.fetchall()
 
