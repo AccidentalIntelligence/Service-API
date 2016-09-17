@@ -1,0 +1,5 @@
+# Client ID
+client_id = "<your client ID here>"
+
+# Access key
+oauth_key = "<your access key here>"

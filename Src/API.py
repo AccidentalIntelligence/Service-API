@@ -1,6 +1,7 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import modules.weather.api as weather
 import modules.bcw.api as barcode
+import modules.twitch.api as twitch
 import time
 import sys
 import logging
@@ -48,6 +49,9 @@ class MyHandler(BaseHTTPRequestHandler):
                 return
             elif path.endswith("code"):
                 sendResponse(self, 200, {'Content-Type':'application/json'}, barcode.getScanResponse(query))
+                return
+            elif path.endswith("twitch"):
+                sendResponse(self, 200, {'Content-Type':'application/json'}, twitch.getTwitchResponse(query))
                 return
             else:
                 send404(self, path)
