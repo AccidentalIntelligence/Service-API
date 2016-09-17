@@ -36,7 +36,8 @@ def getStreamAtOffset(game, offset):
     try:
         response = urllib2.urlopen(url)
         data = json.load(response)
-        if data['name']:
+        logging.debug(data)
+        if 'name' in data:
             return getStreamStatus(data['name'])
         else:
             return '{"error":"Error getting random stream."}'
