@@ -47,7 +47,7 @@ def getStreamStatus(channel):
         if result:
             storeStatus(result, now)
         else:
-            result = "{'error':'Failed getting status from Twitch API'}"
+            result = {'error':'Failed getting status from Twitch API'}
     else:
         logging.debug("Channel found in DB, retrieving")
         result = res[0]
@@ -83,6 +83,7 @@ def getTwitchResponse(query):
 
     # status request of a given channel
     if data_req == 'status':
+        logging.info("Action requested: status")
         if not 'q' in qs:
             return "{'error':'missing query string'}"
         query = qs['q'][0]
@@ -91,6 +92,7 @@ def getTwitchResponse(query):
 
     # count of all live streams
     elif data_req == 'count':
+        logging.info("Action requested: count")
         if 'g' in qs:
             game = qs['g'][0]
         else:
@@ -100,6 +102,7 @@ def getTwitchResponse(query):
 
     # returns a random streams
     elif data_req == 'random':
+        logging.info("Action requested: random")
         if 'g' in qs:
             game = qs['g'][0]
         else:
