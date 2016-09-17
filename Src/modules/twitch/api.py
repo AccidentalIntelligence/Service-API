@@ -13,7 +13,7 @@ def storeStatus(data, when):
     db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
-    query = """INSERT INTO channel_status (
+    query = """REPLACE INTO channel_status (
             channel,
             live,
             viewers,
