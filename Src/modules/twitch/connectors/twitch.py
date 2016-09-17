@@ -1,4 +1,4 @@
-import config
+from ..twitch import config
 
 def getStreamStatus(channel):
     url = "https://api.twitch.tv/kraken/streams/{0}?client_id={1}".format(channel, config.client_id)
