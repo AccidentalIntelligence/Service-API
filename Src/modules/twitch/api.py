@@ -1,4 +1,5 @@
 import cgi
+import json
 import logging
 import MySQLdb
 import time
@@ -53,6 +54,8 @@ def getStreamStatus(channel):
     return result
 
 
+
+
 def getTwitchResponse(query):
     if query == "":
         return "{'error':'empty query'}"
@@ -62,4 +65,4 @@ def getTwitchResponse(query):
     if not 'c' in qs:
         return "{'error':'missing query string'}"
     result = getStreamStatus(qs['c'][0])
-    return result
+    return JSON.dumps(result)
