@@ -22,3 +22,4 @@ def getStreamStatus(channel):
             result['live'] = 0
     except urllib2.URLError:
         return None
+    return result

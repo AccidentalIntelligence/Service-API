@@ -6,7 +6,6 @@ import time
 import config
 
 import connectors.twitch as connector
-import connectors.twitch_oauth as auth_connector
 
 def storeStatus(data, when):
     db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
