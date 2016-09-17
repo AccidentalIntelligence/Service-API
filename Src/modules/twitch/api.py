@@ -26,6 +26,7 @@ def storeStatus(data, when):
     logging.debug(params)
 
     c.execute(query, params)
+    db.commit()
     db.close()
 
 
