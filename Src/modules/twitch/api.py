@@ -12,8 +12,7 @@ def storeStatus(data, when):
     db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
-    query = """
-        INSERT INTO channel_status (
+    query = """INSERT INTO channel_status (
             channel,
             live,
             viewers,
@@ -23,7 +22,7 @@ def storeStatus(data, when):
         """
     params = (data['channel'], data['live'], data['viewers'], data['game'], when)
 
-    logging.debug(query.format(params))
+    logging.debug(query)
 
     c.execute(query, params)
     db.close()
