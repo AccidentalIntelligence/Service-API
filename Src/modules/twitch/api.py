@@ -8,6 +8,7 @@ import config
 import connectors.twitch as connector
 
 def storeStatus(data, when):
+    logging.debug("Storing Data: " + str(data) + " checked: " + str(when))
     db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
@@ -41,13 +42,14 @@ def getStreamStatus(channel):
     result = {}
 
     if len(res) == 0 or now - res[0]['last_checked'] > 60:
-        logging.debug("Channel not listed, getting status from Twitch API")
+        logging.debug("Channel not listed, or timed out. Getting status from Twitch API")
         result = connector.getStreamStatus(channel)
         if result:
             storeStatus(result, now)
         else:
             result = "{'error':'Failed getting status from Twitch API'}"
     else:
+        logging.debug("Channel found in DB, retrieving")
         result = res[0]
 
     return result
