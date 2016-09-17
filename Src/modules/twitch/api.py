@@ -2,6 +2,7 @@ import cgi
 import json
 import logging
 import MySQLdb
+import random
 import time
 
 import config
@@ -53,9 +54,15 @@ def getStreamStatus(channel):
 
     return result
 
-def getStreamCount():
+def getStreamCount(game):
     result = {}
-    result['count'] = connector.getStreamCount()
+    result['count'] = connector.getStreamCount(game)
+    return result
+
+def getRandomStream(game):
+    count = connector.getStreamCount(game)
+    offset = random.randrange(count)
+    result = connector.getStreamAtOffset(game, offset)
     return result
 
 def getValues(dic, keys):
@@ -84,5 +91,18 @@ def getTwitchResponse(query):
 
     # count of all live streams
     elif data_req == 'count':
-        result = getStreamCount()
+        if 'g' in qs:
+            game = qs['g'][0]
+        else:
+            game = ""
+        result = getStreamCount(game)
+        return json.dumps(result)
+
+    # returns a random streams
+    elif data_req == 'random':
+        if 'g' in qs:
+            game = qs['g'][0]
+        else:
+            game = ""
+        result = getRandomStream(game)
         return json.dumps(result)
