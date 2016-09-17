@@ -44,7 +44,8 @@ def getStreamStatus(channel):
         result = connector.getStreamStatus(channel)
         if result:
             storeStatus(result, now)
-        else result = "{'error':'Failed getting status from Twitch API'}"
+        else:
+            result = "{'error':'Failed getting status from Twitch API'}"
     else:
         result = res[0]
 
