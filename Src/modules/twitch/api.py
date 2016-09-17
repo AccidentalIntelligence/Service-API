@@ -65,4 +65,4 @@ def getTwitchResponse(query):
     if not 'c' in qs:
         return "{'error':'missing query string'}"
     result = getStreamStatus(qs['c'][0])
-    return JSON.dumps(result)
+    return json.dumps(result)
