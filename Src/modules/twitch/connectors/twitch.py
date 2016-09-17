@@ -6,7 +6,7 @@ import urllib2
 from .. import config
 
 def getStreamStatus(channel):
-    url = "https://api.twitch.tv/kraken/streams/{0}?client_id={1}".format(channel, config.client_id)
+    url = "https://api.twitch.tv/kraken/streams/{channel}?client_id={client_id}".format(channel=channel, client_id=config.client_id)
     result = {}
     result['channel'] = channel
     try:
@@ -31,7 +31,7 @@ def getStreamStatus(channel):
     return result
 
 def getStreamCount():
-    url = "https://api.twitch.tv/kraken/streams/?client_id={1}".format(config.client_id)
+    url = "https://api.twitch.tv/kraken/streams/?client_id={client_id}".format(client_id=config.client_id)
 
     try:
         response = urllib2.urlopen(url)
