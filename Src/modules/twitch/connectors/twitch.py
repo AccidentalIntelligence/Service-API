@@ -14,7 +14,7 @@ def getStreamStatus(channel):
         data = json.load(response)
         if data['stream']:
             result['viewers'] = data['stream']['viewers']
-            result['game'] = data['stream']['game']
+            result['game'] = data['stream']['game'].encode('utf8')
             result['live'] = 1
         else:
             result['viewers'] = 0
