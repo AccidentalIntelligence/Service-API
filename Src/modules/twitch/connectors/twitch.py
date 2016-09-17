@@ -36,8 +36,8 @@ def getStreamCount():
     try:
         response = urllib2.urlopen(url)
         data = json.load(response)
-        if data._total:
-            return data._total
+        if data['_total']:
+            return data['_total']
         else:
             return 0
 
