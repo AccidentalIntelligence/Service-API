@@ -3,40 +3,38 @@ from urllib import urlencode
 import json
 import logging
 
+from .. import config
+
 # Service Configuration
-api_url = "http://api.worldweatheronline.com/free/v1/weather.ashx?"
-num_days = 5
-include_location = "yes"
-format = "json"
-key = "nn9k24n22ndaxw3rw9e4wjzx"
+fmt = "json"
 
 def getWeatherData(location):
-    global key, format, num_days, include_location, api_url
-    
+    global fmt
+
     logging.info("Retrieving weather data from WWO")
     logging.info("Using Location: "+location)
     # Grab data for location
     data = dict()
     data['q'] = location
     data['extra'] = 'localObsTime'
-    data['num_of_days'] = num_days
-    data['includeLocation'] = include_location
-    data['format'] = format
-    data['key'] = key
-    
+    data['num_of_days'] = config.num_days
+    data['includeLocation'] = config.include_location
+    data['format'] = fmt
+    data['key'] = config.api_key
+
     http = httplib2.Http()
-    
+
     print urlencode(data)
-    
-    response, content = http.request(api_url+urlencode(data))
-    
+
+    response, content = http.request(config.api_url+urlencode(data))
+
     data = json.loads(content)['data']
-    
+
     weatherData = {"current":{},"forecast":[]}
     weatherData['locationName'] = location
     current = data['current_condition'][0]
     forecast = data['weather']
-    
+
     # current weather
     weatherData['current']['temp'] = current['temp_F']
     weatherData['current']['windSpeed'] = current['windspeedKmph']
@@ -46,7 +44,7 @@ def getWeatherData(location):
     weatherData['current']['visibility'] = current['visibility']
     weatherData['current']['pressure'] = current['pressure']
     weatherData['current']['cloud'] = current['cloudcover']
-    
+
     # forecast weather
     i = 0
     for day in forecast:
@@ -59,5 +57,5 @@ def getWeatherData(location):
         weatherData['forecast'][i]['precipMM'] = day['precipMM']
         weatherData['forecast'][i]['description'] = day['weatherDesc'][0]['value']
         i = i + 1
-        
+
     return weatherData

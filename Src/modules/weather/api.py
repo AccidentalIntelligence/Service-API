@@ -14,62 +14,52 @@ import connectors.wwo as connector
 from states import states
 from countries import countries
 
-search_url = "http://api.worldweatheronline.com/free/v1/search.ashx?"
-key = "nn9k24n22ndaxw3rw9e4wjzx"
-
-# database params
-dbhost = "localhost"
-dbuser = "wsUser"
-dbpass = "w34therR0ck"
-dbname = "weather_service"
-
 def formatLocationName(area, region, country):
     global states, countries
     location = ""
-    
+
     if country in countries:
         country = countries[country]
-    
+
     # location in in the USA
     if region in states:
         region = states[region]
-        
+
     location = ",".join([area, region, country])
-        
+
     return location
 
 def getSearchData(term):
-    global key, search_url, dbhost,dbuser,dbpass,dbname
     # trim the term to remove extraneous spaces, and convert to all uppercase
     term = ' '.join(term.split()).upper()
-    
+
     #database connection
-    db = MySQLdb.connect(host=dbhost,user=dbuser,passwd=dbpass,db=dbname)
-    
+    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
+
     # First - check to see if we already have data for the search term
     c = db.cursor(MySQLdb.cursors.DictCursor)
     c.execute("""SELECT * FROM search WHERE term = %s""", (term,))
     res = c.fetchall()
     searchData = []
     logging.debug("location search request received")
-    
+
     if len(res) == 0:
         logging.debug("New terms, retrieving results from Weather API")
         # If not, perform the search
         data = dict()
         data['q'] = term
         data['format'] = 'json'
-        data['key'] = key
+        data['key'] = config.api_key
         data['num_of_results'] = '5'
-    
+
         http = httplib2.Http()
-        response, content = http.request(search_url+urlencode(data))
-    
+        response, content = http.request(config.search_url+urlencode(data))
+
         results = json.loads(content)
         if 'search_api' in results:
             results = results['search_api']['result']
-        
-            # Store the search data 
+
+            # Store the search data
             for result in results:
                 locName = formatLocationName(
                     result['areaName'][0]['value'],
@@ -77,7 +67,7 @@ def getSearchData(term):
                     result['country'][0]['value']
                     )
                 searchData.append(locName)
-            
+
                 c.execute("""INSERT INTO search (term, locationName) VALUES (%s, %s)""",(term, locName))
     else: # read results from the database
         logging.info("Results found in our Database")
@@ -88,35 +78,34 @@ def getSearchData(term):
             #entry['region'] = result['region']
             #searchData.append(entry)
             searchData.append(result['locationName'])
- 
+
     db.close()
     # Return search results
     return searchData
-    
+
 
 def buildLocName(area, region, country):
     t = [area,region,country]
     name = ','.join(t)
-    
+
 def storeWeatherData(weatherData):
-    global dbhost,dbuser,dbpass,dbname
     #database connection
-    db = MySQLdb.connect(host=dbhost,user=dbuser,passwd=dbpass,db=dbname)
+    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
     c = db.cursor(MySQLdb.cursors.DictCursor)
     # Store current weather
     current = weatherData['current']
     c.execute(
     """INSERT INTO current (
-            locationName, 
-            syncTime, 
-            temp, 
-            windSpeed, 
-            windDir, 
-            precipMM, 
-            humidity, 
-            visibility, 
-            pressure, 
-            cloud) 
+            locationName,
+            syncTime,
+            temp,
+            windSpeed,
+            windDir,
+            precipMM,
+            humidity,
+            visibility,
+            pressure,
+            cloud)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""", (
             weatherData['locationName'],
             time.time(),
@@ -136,10 +125,10 @@ def storeWeatherData(weatherData):
                 date,
                 tempMax,
                 tempMin,
-                windSpeed, 
-                windDir, 
-                precipMM, 
-                description) 
+                windSpeed,
+                windDir,
+                precipMM,
+                description)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""", (
                 weatherData['locationName'],
                 day['date'],
@@ -149,30 +138,31 @@ def storeWeatherData(weatherData):
                 day['windDir'],
                 day['precipMM'],
                 day['description']))
-    
+
     #database connection
+    db.commit()
     db.close()
     return
 
 def updateWeatherData(weatherData):
     global db
-    
+
     logging.info('Updating stored data for location: '+weatherData['locationName'])
     #database connection
-    db = MySQLdb.connect(host=dbhost,user=dbuser,passwd=dbpass,db=dbname)
+    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
     c = db.cursor(MySQLdb.cursors.DictCursor)
     # update current data
     current = weatherData['current']
     c.execute(
     """UPDATE current SET
-            syncTime = %s, 
-            temp = %s, 
-            windSpeed = %s, 
-            windDir = %s, 
-            precipMM = %s, 
-            humidity = %s, 
-            visibility = %s, 
-            pressure = %s, 
+            syncTime = %s,
+            temp = %s,
+            windSpeed = %s,
+            windDir = %s,
+            precipMM = %s,
+            humidity = %s,
+            visibility = %s,
+            pressure = %s,
             cloud = %s
             WHERE locationName = %s""", (
             time.time(),
@@ -185,7 +175,7 @@ def updateWeatherData(weatherData):
             current['pressure'],
             current['cloud'],
             weatherData['locationName']))
-    
+
     # update forecast data
     # clear it out first!
     c.execute("""DELETE FROM forecast WHERE locationName = %s""", (weatherData['locationName']))
@@ -197,10 +187,10 @@ def updateWeatherData(weatherData):
                 date,
                 tempMax,
                 tempMin,
-                windSpeed, 
-                windDir, 
-                precipMM, 
-                description) 
+                windSpeed,
+                windDir,
+                precipMM,
+                description)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""", (
                 weatherData['locationName'],
                 day['date'],
@@ -210,20 +200,21 @@ def updateWeatherData(weatherData):
                 day['windDir'],
                 day['precipMM'],
                 day['description']))
+    db.commit()
     db.close()
     return
 
 def getWeatherData(location):
-    global key, format, num_days, include_location, api_url, dbhost,dbuser,dbpass,dbname
+    global fmt
     # First - Check the database for Cached data
     #database connection
-    db = MySQLdb.connect(host=dbhost,user=dbuser,passwd=dbpass,db=dbname)
+    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
     c = db.cursor(MySQLdb.cursors.DictCursor)
     c.execute("""SELECT * FROM current WHERE locationName = %s""", (location,))
     res = c.fetchall()
     searchData = []
     weatherData = {}
-    
+
     logging.info("Weather data request received for location: %s", location)
     if len(res) == 1:
         logging.info("Data found in DB for: %s", location)
@@ -231,6 +222,8 @@ def getWeatherData(location):
         if time.time() - float(res[0]['syncTime']) > 7200:#7200:
             logging.info("Data out of date for: %s", location)
             weatherData = connector.getWeatherData(location)
+
+            #TODO: syncTime should be stored as an int?
             weatherData['current']['syncTime'] = str(time.time())
             updateWeatherData(weatherData)
         else:
@@ -247,15 +240,17 @@ def getWeatherData(location):
     elif len(res) == 0:
         print logging.info("Data not yet in in DB for: %s", location)
         weatherData = connector.getWeatherData(location)
+
+        #TODO: syncTime should be stored as an int?
         weatherData['current']['syncTime'] = str(time.time())
         storeWeatherData(weatherData)
-        
+
     else:
         print logging.critical("ERROR! More than one record? This shouldn't happen!")
     db.close()
     return weatherData
-                
-    
+
+
 ###[ XML generation code ]###########################################
 
 def buildSearchResponse(searchData):
@@ -279,7 +274,7 @@ def buildSearchResponse(searchData):
     for result in searchData:
         item = SubElement(resultsElement, 'resultItem').text = result
     return tostring(xml)
-    
+
 
 def buildWeatherResponse(weatherData):
     # data structure
@@ -310,7 +305,7 @@ def buildWeatherResponse(weatherData):
     #       </day>
     #   </forecast>
     # </weatherData>
-    
+
     location = weatherData['locationName']
     current = weatherData['current']
     forecast = weatherData['forecast']
@@ -335,11 +330,11 @@ def buildWeatherResponse(weatherData):
         SubElement(day, 'tempMin').text = item['tempMin']
         SubElement(day, 'tempMax').text = item['tempMax']
         SubElement(day, 'windSpeed').text = item['windSpeed']
-        SubElement(day, 'windDir').text = item['windDir'] 
-        SubElement(day, 'precipMM').text = item['precipMM'] 
+        SubElement(day, 'windDir').text = item['windDir']
+        SubElement(day, 'precipMM').text = item['precipMM']
         SubElement(day, 'description').text = item['description']
     return tostring(xml)
-    
+
 #####[ API Functions ]####################
 
 def getSearchResponse(query):
@@ -366,4 +361,3 @@ def getWeatherResponse(query):
         return "<error>missing query string</error>"
     result = getWeatherData(qs['q'][0])
     return buildWeatherResponse(result)
-    

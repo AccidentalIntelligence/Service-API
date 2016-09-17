@@ -5,3 +5,7 @@ A combined service API providing services to the various AI mobile apps and game
 ## Current API's
 * Weather Service
 * Barcode Query
+* Twitch API
+
+## In Development
+* Twitter API
