@@ -1,4 +1,6 @@
 import cgi
+import logging
+import MySQLdb
 import time
 
 import config

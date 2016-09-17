@@ -1,3 +1,7 @@
+import logging
+import urllib
+import urllib2
+
 from .. import config
 
 def getStreamStatus(channel):
