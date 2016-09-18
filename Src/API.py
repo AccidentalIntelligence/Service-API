@@ -12,6 +12,9 @@ log_format = '%(asctime)s:%(levelname)s:%(message)s'
 log_date_format = '%Y/%m/%d-%I:%M:%S'
 log_level = logging.DEBUG
 
+# specify which API's to expose
+available_apis['twitch']
+
 def syncTime():
     result = "<time>"+str(time.time())+"</time>"
     return result
@@ -29,6 +32,11 @@ def sendResponse(handler, code, headers, data):
     handler.wfile.write(data)
     return
 
+def check_api(path, name):
+    if path.endswith(name) and name in available_apis:
+        return True
+    return False
+
 class MyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
@@ -38,19 +46,19 @@ class MyHandler(BaseHTTPRequestHandler):
             query = path[path.index("?")+1:]
             path = path[0:path.index("?")]
         try:
-            if path.endswith("search"):
+            if check_api(path, "search"):
                 sendResponse(self, 200, {'Content-Type':'application/xml'}, weather.getSearchResponse(query))
                 return
-            elif path.endswith("sync"):
+            elif check_api(path, "sync"):
                 sendResponse(self, 200, {'Content-Type':'application/xml'}, syncTime())
                 return
-            elif path.endswith("weather"):
+            elif check_api(path, "weather"):
                 sendResponse(self, 200, {'Content-Type':'application/xml'}, weather.getWeatherResponse(query))
                 return
-            elif path.endswith("code"):
+            elif check_api(path, "code"):
                 sendResponse(self, 200, {'Content-Type':'application/json'}, barcode.getScanResponse(query))
                 return
-            elif path.endswith("twitch"):
+            elif check_api(path, "twitch"):
                 sendResponse(self, 200, {'Content-Type':'application/json','Access-Control-Allow-Origin':'http://capnflint.com'}, twitch.getTwitchResponse(query))
                 return
             else:
