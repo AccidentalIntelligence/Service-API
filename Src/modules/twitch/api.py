@@ -5,7 +5,7 @@ import MySQLdb
 import random
 import time
 
-from .. import api_helper.*
+from ..api_helper import *
 
 # check config can be loaded
 try:
