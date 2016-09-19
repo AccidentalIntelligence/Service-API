@@ -9,8 +9,6 @@ from ..api_helper import *
 
 has_config = False
 
-print "has_config: " + str(has_config)
-
 # check config can be loaded
 try:
     import config
@@ -18,8 +16,6 @@ try:
 except ImportError:
     has_config = False
     logging.debug("Cannot load config for the Twitch API. The API will not function.")
-
-print "has_config: " + str(has_config)
 
 import connectors.twitch as connector
 
