@@ -42,9 +42,6 @@ def formatLocationName(area, region, country):
     return location
 
 def getSearchData(term):
-    global has_config
-    if !has_config:
-        return {"error":"Weather API not configured!"}
     # trim the term to remove extraneous spaces, and convert to all uppercase
     term = ' '.join(term.split()).upper()
 
@@ -220,9 +217,7 @@ def updateWeatherData(weatherData):
     return
 
 def getWeatherData(location):
-    global fmt, has_config
-    if !has_config:
-        return {"error":"Weather API not configured!"}
+    global fmt
     # First - Check the database for Cached data
     #database connection
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
