@@ -7,6 +7,8 @@ import modules.weather.api as weather
 import modules.bcw.api as barcode
 import modules.twitch.api as twitch
 
+from modules.api_helper import *
+
 # API Configuration
 port = 8396
 log_file = "service.log"

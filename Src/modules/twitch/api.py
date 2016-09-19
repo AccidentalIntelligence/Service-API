@@ -87,6 +87,7 @@ def getValues(dic, keys):
 
 ####[ API Functions ]###########################################################
 
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'http://capnflint.com'})
 @register_api("twitch")
 def getTwitchResponse(query):
     global has_config
