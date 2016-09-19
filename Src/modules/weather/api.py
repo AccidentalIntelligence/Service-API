@@ -7,6 +7,8 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 import MySQLdb
 import logging
 
+from ..api_helper import *
+
 # check config can be loaded
 try:
     import config
