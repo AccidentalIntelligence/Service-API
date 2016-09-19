@@ -15,7 +15,7 @@ log_date_format = '%Y/%m/%d-%I:%M:%S'
 log_level = logging.DEBUG
 
 # specify which API's to expose
-available_apis['twitch']
+available_apis = ['twitch']
 
 def syncTime():
     result = "<time>"+str(time.time())+"</time>"
