@@ -1,5 +1,5 @@
 
-has_config = False
+#has_config = {}
 api_register = dict()
 
 def register_api(api):
@@ -9,6 +9,7 @@ def register_api(api):
         print "Registering API: " + api
         def wrapped(query):
             global has_config
+            print "Wrapped has_config: " + has_config
             if has_config:
                 return func(query)
             else:
