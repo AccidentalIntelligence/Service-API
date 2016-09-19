@@ -50,6 +50,9 @@ class MyHandler(BaseHTTPRequestHandler):
             query = path[path.index("?")+1:]
             path = path[0:path.index("?")]
         try:
+            print api_register
+            print api_headers
+            '''
             if check_api(path, "search"):
                 sendResponse(self, 200, {'Content-Type':'application/xml'}, weather.getSearchResponse(query))
                 return
@@ -67,7 +70,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 return
             else:
                 send404(self, path)
-                return
+                return'''
         except IOError as details:
             self.send_error(404, 'IOError: '+str(details))
 
