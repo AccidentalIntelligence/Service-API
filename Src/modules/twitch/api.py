@@ -7,7 +7,7 @@ import time
 
 from ..api_helper import *
 
-print "has_config: " + has_config
+print "has_config: " + str(has_config)
 
 # check config can be loaded
 try:
