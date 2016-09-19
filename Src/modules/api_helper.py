@@ -15,7 +15,7 @@ def register_api(api):
         # do post-wrap
     return wrap
 
-def set_header(headers):
+def set_headers(headers):
     global api_headers
     def wrap(func):
         print "Adding headers: " + str(headers)
