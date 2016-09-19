@@ -7,6 +7,8 @@ import time
 
 from ..api_helper import *
 
+print "has_config: " + has_config
+
 # check config can be loaded
 try:
     import config
