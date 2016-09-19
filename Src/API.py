@@ -50,8 +50,13 @@ class MyHandler(BaseHTTPRequestHandler):
             query = path[path.index("?")+1:]
             path = path[0:path.index("?")]
         try:
-            print api_register
-            print api_headers
+            if path in available_apis:
+                api = api_register(path)
+                sendResponse(self, 200, api_headers[api], api(query))
+                return
+            else:
+                send404(self, path)
+                return
             '''
             if check_api(path, "search"):
                 sendResponse(self, 200, {'Content-Type':'application/xml'}, weather.getSearchResponse(query))
