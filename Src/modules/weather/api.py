@@ -7,12 +7,24 @@ from xml.etree.ElementTree import Element, SubElement, tostring
 import MySQLdb
 import logging
 
+# check config can be loaded
+try:
+    import config
+    has_config = True
+except ImportError:
+    has_config = False
+    logging.debug("Cannot load config for the Weather API. The API will not function.")
+
 # Connector. Change here to change remote service.
 import connectors.wwo as connector
 
 # Import dictionaries to format location names
 from states import states
 from countries import countries
+
+def check_config():
+    global has_config
+    return has_config
 
 def formatLocationName(area, region, country):
     global states, countries
@@ -30,6 +42,9 @@ def formatLocationName(area, region, country):
     return location
 
 def getSearchData(term):
+    global has_config
+    if !has_config:
+        return {"error":"Weather API not configured!"}
     # trim the term to remove extraneous spaces, and convert to all uppercase
     term = ' '.join(term.split()).upper()
 
@@ -205,7 +220,9 @@ def updateWeatherData(weatherData):
     return
 
 def getWeatherData(location):
-    global fmt
+    global fmt, has_config
+    if !has_config:
+        return {"error":"Weather API not configured!"}
     # First - Check the database for Cached data
     #database connection
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)

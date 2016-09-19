@@ -3,7 +3,11 @@ import logging
 import urllib
 import urllib2
 
-from .. import config
+# check config can be loaded
+try:
+    from .. import config
+except ImportError:
+    pass
 
 def getStreamStatus(channel):
     url = "https://api.twitch.tv/kraken/streams/{channel}?client_id={client_id}".format(channel=channel, client_id=config.client_id)

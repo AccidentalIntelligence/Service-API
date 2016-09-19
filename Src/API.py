@@ -1,11 +1,13 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-import modules.weather.api as weather
-import modules.bcw.api as barcode
-import modules.twitch.api as twitch
 import time
 import sys
 import logging
 
+import modules.weather.api as weather
+import modules.bcw.api as barcode
+import modules.twitch.api as twitch
+
+# API Configuration
 port = 8396
 log_file = "service.log"
 log_format = '%(asctime)s:%(levelname)s:%(message)s'

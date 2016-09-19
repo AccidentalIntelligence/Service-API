@@ -3,7 +3,10 @@ from urllib import urlencode
 import json
 import logging
 
-from .. import config
+try:
+    from .. import config
+except ImportError:
+    pass
 
 # Service Configuration
 fmt = "json"

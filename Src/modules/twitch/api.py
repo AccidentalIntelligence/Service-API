@@ -5,7 +5,15 @@ import MySQLdb
 import random
 import time
 
-import config
+from .. import api_helper.*
+
+# check config can be loaded
+try:
+    import config
+    has_config = True
+except ImportError:
+    has_config = False
+    logging.debug("Cannot load config for the Twitch API. The API will not function.")
 
 import connectors.twitch as connector
 
@@ -30,7 +38,6 @@ def storeStatus(data, when):
     c.execute(query, params)
     db.commit()
     db.close()
-
 
 def getStreamStatus(channel):
     db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
@@ -65,13 +72,20 @@ def getRandomStream(game):
     result = connector.getStreamAtOffset(game, offset)
     return result
 
+
 def getValues(dic, keys):
     ret = {}
     for key in keys:
         ret['key'] = dic['key']
     return ret
 
+####[ API Functions ]###########################################################
+
+@register_api("twitch")
 def getTwitchResponse(query):
+    global has_config
+    if not has_config:
+        return '{"error":"No configuration loaded for Twitch API"}'
     if query == "":
         return '{"error":"empty query"}'
     qs = cgi.parse_qs(query)
