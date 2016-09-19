@@ -348,7 +348,8 @@ def buildWeatherResponse(weatherData):
     return tostring(xml)
 
 #####[ API Functions ]####################
-
+@set_headers({'Content-Type':'application/xml'})
+@register_api("search")
 def getSearchResponse(query):
     # Valid query string: q=search+query&u=userToken
     if query == "":
@@ -363,6 +364,8 @@ def getSearchResponse(query):
         return "<error>No results found!</error>"
     return buildSearchResponse(result)
 
+@set_headers({'Content-Type':'application/xml'})
+@register_api("weather")
 def getWeatherResponse(query):
     if query == "":
         return "<error>empty query</error>"
@@ -373,3 +376,8 @@ def getWeatherResponse(query):
         return "<error>missing query string</error>"
     result = getWeatherData(qs['q'][0])
     return buildWeatherResponse(result)
+
+@set_headers({'Content-Type':'application/xml'})
+@register_api("sync")
+def sync_time():
+    return "<time>"+str(time.time())+"</time>"
