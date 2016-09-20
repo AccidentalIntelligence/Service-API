@@ -1,4 +1,5 @@
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from SocketServer import ThreadingMixIn
 import time
 import sys
 import logging
@@ -61,7 +62,7 @@ class MyHandler(BaseHTTPRequestHandler):
         pass
 
 
-class APIServer(HTTPServer):
+class APIServer(ThreadingMixIn, HTTPServer):
     def __init__(self, port):
         HTTPServer.__init__(self, ('',port), MyHandler)
 

@@ -18,12 +18,16 @@ def getStreamStatus(channel):
         data = json.load(response)
         if data['stream']:
             result['viewers'] = data['stream']['viewers']
-            result['game'] = data['stream']['game'].encode('utf8')
+            if data['stream']['game']:
+                result['game'] = data['stream']['game'].encode('utf8')
+            else:
+                result['game'] = 'None'
             result['live'] = 1
             result['logo'] = data['stream']['channel']['logo']
             result['name'] = data['stream']['channel']['display_name']
             result['title'] = data['stream']['channel']['status']
         else:
+            logging.info("Channel offline.")
             result['viewers'] = 0
             result['game'] = ""
             result['live'] = 0

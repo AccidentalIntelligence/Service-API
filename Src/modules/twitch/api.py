@@ -51,7 +51,7 @@ def getStreamStatus(channel):
     result = {}
 
     if len(res) == 0 or now - res[0]['last_checked'] > 60:
-        logging.debug("Channel not listed, or timed out. Getting status from Twitch API")
+        logging.debug("Channel not in DB, or record too old. Getting new status from Twitch API")
         result = connector.getStreamStatus(channel)
         if result:
             storeStatus(result, now)
@@ -70,9 +70,12 @@ def getStreamCount(game):
 
 def getRandomStream(game):
     count = connector.getStreamCount(game)
-    offset = random.randrange(count-100)
-    result = connector.getStreamAtOffset(game, offset)
-    return result
+    if count > 100:
+        offset = random.randrange(count-100)
+        result = connector.getStreamAtOffset(game, offset)
+        return result
+    else:
+        return {'error':'Twitch returned zero streams'}
 
 
 def getValues(dic, keys):
