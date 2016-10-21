@@ -172,9 +172,9 @@ systems = getSystems()
 planets = []
 cities = []
 for system in systems:
-    planets.append(getPlanets(system))
+    planets = planets + getPlanets(system)
     for planet in planets:
-        cities.append(getCities(planet, system))
+        cities = cities + getCities(planet, system)
 print "Total Systems: " + str(len(systems))
 print "Total Planets: " + str(len(planets))
 print "Total Cities: " + str(len(cities))
