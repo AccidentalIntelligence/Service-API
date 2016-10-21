@@ -129,7 +129,9 @@ def getPlanets(system):
                 )
                 #c.execute(sql, planetData)
         print "Planets added: " + ", ".join(planets)
-
+    except:
+        print "oops!"
+    return planets
 
 def getCities(planet):
     pass
