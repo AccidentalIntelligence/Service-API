@@ -18,36 +18,56 @@ except ImportError:
 
 import connectors.starmap as starmap
 
-def storeSystem(sysData):
-    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
+def storeSystem(sysData, db):
     sql = "INSERT INTO systems (code, name, description, type, id) VALUES (%s, %s, %s, %s, %s)"
+    c = db.cursor(MySQLdb.cursors.DictCursor)
 
-def storePlanet(planetData):
+    c.execute(sql, sysData)
+    db.commit()
+
+def storePlanet(planetData, db):
     sql = "INSERT INTO planets (code, name, description, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
-def storeCity(cityData):
-    sql = "INSERT INTO homes (code, name, description, planet, system) VALUES (%s, %s, %s, %s, %s)"
+    c.execute(sql, planetData)
+    db.commit()
 
+def storeCity(cityData, db):
+    sql = "INSERT INTO homes (code, name, description, planet, system) VALUES (%s, %s, %s, %s, %s)"
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+
+    c.execute(sql, cityData)
+    db.commit()
+
+def clearData(db):
+    pass
 
 def updateDatastore()
+    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
     systems = starmap.getSystems()
-    planets = []
-    cities = []
-    for system in systems:
+    planets = {}
+    cities = {}
+    for system in systems.keys():
+        storeSystem(systems[system], db)
         newPlanets = starmap.getPlanets(system)
-        for planet in newPlanets:
-            cities = cities + starmap.getCities(planet, system)
-        planets = planets + newPlanets
+        for planet in newPlanets.keys():
+            storePlanet(newPlanets[planet], db)
+            newCities = starmap.getCities(planet, system)
+            for city in newCities.keys():
+                storeCity(newCities[city], db)
+            cities.update(starmap.getCities(planet, system))
+        planets.update(newPlanets)
     result = {
         'success': 1,
         'systems': len(systems),
         'planets': len(planets),
         'cities': len(cities)
     }
-    logging.info("Total Systems: " + str(len(systems)))
-    logging.info("Total Planets: " + str(len(planets)))
-    logging.info("Total Cities: " + str(len(cities)))
+    db.close()
+    logging.info("Total Systems: " + str(len(systems.keys())))
+    logging.info("Total Planets: " + str(len(planets.keys())))
+    logging.info("Total Cities: " + str(len(cities.keys())))
+    return result
 
 ####[ API Functions ]###########################################################
 
