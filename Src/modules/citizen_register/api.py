@@ -42,7 +42,7 @@ def storeCity(cityData, db):
 def clearData(db):
     pass
 
-def updateDatastore()
+def updateDatastore():
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
     systems = starmap.getSystems()
     planets = {}
