@@ -1,188 +1,70 @@
-import cgi
-import json
 import logging
 import MySQLdb
 import random
 import time
-import urllib2
-import urllib
+import cgi
 
 from ..api_helper import *
 
-'''
+has_config = False
 
-https://robertsspaceindustries.com/api/starmap/bootup
+# check config can be loaded
+try:
+    import config
+    has_config = True
+except ImportError:
+    has_config = False
+    logging.debug("Cannot load config for the Twitch API. The API will not function.")
 
-data.species
-data.systems.rowcount
-data.systems.resultset[]
-    .code
-    .name
-    .type
-    .id
-    .description
+import connectors.starmap as starmap
 
-https://robertsspaceindustries.com/api/starmap/bookmarks/find
-https://robertsspaceindustries.com/api/starmap/celestial-objects/SOL
+def storeSystem(sysData):
+    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
+    sql = "INSERT INTO systems (code, name, description, type, id) VALUES (%s, %s, %s, %s, %s)"
 
-data.resultset[].celestial_objects[]
-    .type (PLANET)
-    .affiliation
-        .id
-        .name
-        .code
-    .code
-    .descirption
-    .designation
-    .habitable
-    .id
-    .name
-    .subtype.name
-    .sensor_danger
-    .sensor_economy
-    .sensor_population
-    .thumbnail.source
-
-https://robertsspaceindustries.com/api/starmap/celestial-objects/SOL.PLANETS.EARTH
-
-.data.resultset[].children[]
-    .type (LZ, SATELLITE)
-    .code
-    .description
-    .designation
-    .id
-
-
-'''
-
-def storeSystem():
-    db = MySQLdb.connect(host='localhost',user='reguser',passwd='Citiz3n5h1p',db='citizen_register')
-
-    # First - check to see if we already have data for the search term
+def storePlanet(planetData):
+    sql = "INSERT INTO planets (code, name, description, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
-def getSystems():
-    url = "https://robertsspaceindustries.com/api/starmap/bootup"
-    try:
+def storeCity(cityData):
+    sql = "INSERT INTO homes (code, name, description, planet, system) VALUES (%s, %s, %s, %s, %s)"
 
 
-        res = urllib2.urlopen(url,"")
-        data = json.load(res)["data"]
-        systems = []
-        for system in data['systems']['resultset']:
-            sql = "INSERT INTO systems (code, name, description, type, id) VALUES (%s, %s, %s, %s, %s)"
-
-            systems.append(system['code'])
-            sysdata = (
-                system['code'],
-                system['name'],
-                system['description'],
-                system['type'],
-                system['id']
-            )
-            #c.execute(sql, sysdata)
-        print "Systems Added: " + ", ".join(systems)
-
-    except:
-        print "oops!"
-    return systems
-
-def getPlanets(system):
-    url = "https://robertsspaceindustries.com/api/starmap/star-systems/" + system
-    print url
-    try:
-        res = urllib2.urlopen(url, "")
-        data = json.load(res)["data"]["resultset"][0]
-        affiliation = int(data['affiliation'][0]['id'])
-        data = data['celestial_objects']
-    except:
-        print "Failed loading URL"
-        data = []
-        affiliation = 0
+def updateDatastore()
+    systems = starmap.getSystems()
     planets = []
-    for obj in data:
-        if obj['type'] == "PLANET":
-            planet = obj
-            sql = "INSERT INTO planets (code, name, description, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            planets.append(planet['code'])
-            if planet['habitable']:
-                planet['habitable'] = 1
-            else:
-                planet['habitable'] = 0
-            if 'thumbnail' in planet.keys():
-                planet['thumbnail'] = planet['thumbnail']['source']
-            else:
-                planet['thumbnail'] = ""
-            try:
-                planet['danger'] = int(planet['sensor_danger'])
-                planet['economy'] = int(planet['sensor_economy'])
-                planet['population'] = int(planet['sensor_population'])
-            except:
-                print "Failed conversion..."
-                planet['danger'] = planet['economy'] = planet['population'] = 0
-
-            planetData = (
-                planet['code'],
-                planet['name'],
-                planet['description'],
-                planet['subtype']['name'],
-                planet['designation'],
-                planet['habitable'],
-                planet['danger'],
-                planet['economy'],
-                planet['population'],
-                planet['thumbnail'],
-                affiliation,
-                system
-            )
-            #c.execute(sql, planetData)
-    print "Planets added: " + ", ".join(planets)
-    return planets
-
-def getCities(planet, system):
-    url = "https://robertsspaceindustries.com/api/starmap/celestial-objects/" + planet
-    print url
-    try:
-        res = urllib2.urlopen(url, "")
-        data = json.load(res)["data"]["resultset"][0]
-        data = data['children']
-    except:
-        print "Failed loading URL"
-        data = []
     cities = []
-    for obj in data:
-        # TODO: Add in check for moons and such...
-        if obj['type'] == "LZ":
-            city = obj
-            sql = "INSERT INTO homes (code, name, description, planet, system) VALUES (%s, %s, %s, %s, %s)"
-            cities.append(city['code'])
-
-            planetData = (
-                city['code'],
-                city['name'],
-                city['description'],
-                planet,
-                system
-            )
-            #c.execute(sql, planetData)
-    print "Cities added: " + ", ".join(cities)
-    return cities
-
-systems = getSystems()
-planets = []
-cities = []
-for system in systems:
-    newPlanets = getPlanets(system)
-    for planet in newPlanets:
-        cities = cities + getCities(planet, system)
-    planets = planets + newPlanets
-print "Total Systems: " + str(len(systems))
-print "Total Planets: " + str(len(planets))
-print "Total Cities: " + str(len(cities))
+    for system in systems:
+        newPlanets = starmap.getPlanets(system)
+        for planet in newPlanets:
+            cities = cities + starmap.getCities(planet, system)
+        planets = planets + newPlanets
+    result = {
+        'success': 1,
+        'systems': len(systems),
+        'planets': len(planets),
+        'cities': len(cities)
+    }
+    logging.info("Total Systems: " + str(len(systems)))
+    logging.info("Total Planets: " + str(len(planets)))
+    logging.info("Total Cities: " + str(len(cities)))
 
 ####[ API Functions ]###########################################################
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'http://capnflint.com'})
 @register_api("registry")
 def getResponse(query):
-    pass
+    global has_config
+    if not has_config:
+        return '{"error":"No configuration loaded for register API"}'
+    if query == "":
+        return '{"error":"empty query"}'
+    qs = cgi.parse_qs(query)
+    if not 'u' in qs:
+        return '{"error":"missing user token"}'
+    if not 'a' in qs:
+        return '{"error":"missing action type"}'
+    data_req = qs['a'][0]
+
+    if data_req == 'update':
+        logging.info("Action requested: update")
