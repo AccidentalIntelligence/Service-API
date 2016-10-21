@@ -19,7 +19,7 @@ log_date_format = '%Y/%m/%d-%I:%M:%S'
 log_level = logging.DEBUG
 
 # specify which API's to expose
-available_apis = ['twitch']
+available_apis = ['twitch','registry']
 
 def send404(handler, path):
     sendResponse(handler, 404, {'Content-Type':'application/xml'}, "<error>Path Error: /"+path+"</error>")
