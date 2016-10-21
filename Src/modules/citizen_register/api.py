@@ -92,10 +92,13 @@ def getPlanets(system):
     print url
     try:
         res = urllib2.urlopen(url, "")
-        data = json.load(res)["data"]['resultset'][0]['celestial_objects']
+        data = json.load(res)["data"]
+        affiliation = int(data['affiliation'][0]['id'])
+        data = data['resultset'][0]['celestial_objects']
     except:
         print "Failed loading URL"
         data = []
+        affiliation = 0
     planets = []
     for obj in data:
         if obj['type'] == "PLANET":
@@ -111,9 +114,9 @@ def getPlanets(system):
             else:
                 planet['thumbnail'] = ""
             try:
-                planet['danger'] = int(planet['danger'])
-                planet['economy'] = int(planet['economy'])
-                planet['population'] = int(planet['population'])
+                planet['danger'] = int(planet['sensor_danger'])
+                planet['economy'] = int(planet['sensor_economy'])
+                planet['population'] = int(planet['sensor_population'])
             except:
                 print "Failed conversion..."
                 planet['danger'] = planet['economy'] = planet['population'] = 0
@@ -129,7 +132,7 @@ def getPlanets(system):
                 planet['economy'],
                 planet['population'],
                 planet['thumbnail'],
-                int(planet['affiliation'][0]['id']),
+                affiliation,
                 system
             )
             #c.execute(sql, planetData)
