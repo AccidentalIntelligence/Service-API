@@ -106,7 +106,7 @@ def getPlanets(system):
                 planet['habitable'] = 1
             else:
                 planet['habitable'] = 0
-            if thumbnail in planet.keys():
+            if 'thumbnail' in planet.keys():
                 planet['thumbnail'] = planet['thumbnail']['source']
             else:
                 planet['thumbnail'] = ""
