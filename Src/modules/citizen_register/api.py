@@ -94,7 +94,7 @@ def getPlanets(system):
         data = json.load(res)["data"]
         planets = []
         for obj in data['resultset'][0]['celestial_objects']:
-            if obj['type'] === "PLANET":
+            if obj['type'] == "PLANET":
             sql = "INSERT INTO planets (code, name, descirption, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             planets.append(planet['code'])
             if planet['habitable']:
