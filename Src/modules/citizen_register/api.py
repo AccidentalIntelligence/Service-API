@@ -95,39 +95,39 @@ def getPlanets(system):
         planets = []
         for obj in data['resultset'][0]['celestial_objects']:
             if obj['type'] == "PLANET":
-            sql = "INSERT INTO planets (code, name, descirption, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            planets.append(planet['code'])
-            if planet['habitable']:
-                planet['habitable'] = 1
-            else:
-                planet['habitable'] = 0
-            if thumbnail in planet.keys():
-                planet['thumbnail'] = planet['thumbnail']['source']
-            else:
-                planet['thumbnail'] = ""
-            try:
-                planet['danger'] = int(planet['danger'])
-                planet['economy'] = int(planet['economy'])
-                planet['population'] = int(planet['population'])
-            except:
-                print "Failed conversion..."
-                planet['danger'] = planet['economy'] = planet['population'] = 0
+                sql = "INSERT INTO planets (code, name, descirption, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                planets.append(planet['code'])
+                if planet['habitable']:
+                    planet['habitable'] = 1
+                else:
+                    planet['habitable'] = 0
+                if thumbnail in planet.keys():
+                    planet['thumbnail'] = planet['thumbnail']['source']
+                else:
+                    planet['thumbnail'] = ""
+                try:
+                    planet['danger'] = int(planet['danger'])
+                    planet['economy'] = int(planet['economy'])
+                    planet['population'] = int(planet['population'])
+                except:
+                    print "Failed conversion..."
+                    planet['danger'] = planet['economy'] = planet['population'] = 0
 
-            planetData = (
-                planet['code'],
-                planet['name'],
-                planet['description'],
-                planet['subtype']['name'],
-                planet['designation'],
-                planet['habitable'],
-                planet['danger'],
-                planet['economy'],
-                planet['population'],
-                planet['thumbnail'],
-                int(planet['affiliation'][0][id]),
-                system
-            )
-            #c.execute(sql, planetData)
+                planetData = (
+                    planet['code'],
+                    planet['name'],
+                    planet['description'],
+                    planet['subtype']['name'],
+                    planet['designation'],
+                    planet['habitable'],
+                    planet['danger'],
+                    planet['economy'],
+                    planet['population'],
+                    planet['thumbnail'],
+                    int(planet['affiliation'][0][id]),
+                    system
+                )
+                #c.execute(sql, planetData)
         print "Planets added: " + ", ".join(planets)
 
 
