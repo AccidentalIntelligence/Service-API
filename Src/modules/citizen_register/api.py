@@ -92,9 +92,9 @@ def getPlanets(system):
     print url
     try:
         res = urllib2.urlopen(url, "")
-        data = json.load(res)["data"]
+        data = json.load(res)["data"]["resultset"][0]
         affiliation = int(data['affiliation'][0]['id'])
-        data = data['resultset'][0]['celestial_objects']
+        data = data['celestial_objects']
     except:
         print "Failed loading URL"
         data = []
