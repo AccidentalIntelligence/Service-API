@@ -55,13 +55,16 @@ https://robertsspaceindustries.com/api/starmap/celestial-objects/SOL.PLANETS.EAR
 
 '''
 
+def storeSystem():
+    db = MySQLdb.connect(host='localhost',user='reguser',passwd='Citiz3n5h1p',db='citizen_register')
+
+    # First - check to see if we already have data for the search term
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+
 def getSystems():
     url = "https://robertsspaceindustries.com/api/starmap/bootup"
     try:
-        db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
 
-        # First - check to see if we already have data for the search term
-        c = db.cursor(MySQLdb.cursors.DictCursor)
 
         res = urllib2.urlopen(url,"")
         data = json.load(res)["data"]
@@ -81,15 +84,63 @@ def getSystems():
         print "Systems Added: " + ", ".join(systems)
 
     except:
-        pass
+        print "oops!"
+    return systems
 
-def getPlanets():
+def getPlanets(system):
+    url = "https://robertsspaceindustries.com/api/starmap/celestial-objects/" + system
+    try:
+        res = urllib2.urlopen(url, "")
+        data = json.load(res)["data"]
+        planets = []
+        for obj in data['resultset'][0]['celestial_objects']:
+            if obj['type'] === "PLANET":
+            sql = "INSERT INTO planets (code, name, descirption, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            planets.append(planet['code'])
+            if planet['habitable']:
+                planet['habitable'] = 1
+            else:
+                planet['habitable'] = 0
+            if thumbnail in planet.keys():
+                planet['thumbnail'] = planet['thumbnail']['source']
+            else:
+                planet['thumbnail'] = ""
+            try:
+                planet['danger'] = int(planet['danger'])
+                planet['economy'] = int(planet['economy'])
+                planet['population'] = int(planet['population'])
+            except:
+                print "Failed conversion..."
+                planet['danger'] = planet['economy'] = planet['population'] = 0
+
+            planetData = (
+                planet['code'],
+                planet['name'],
+                planet['description'],
+                planet['subtype']['name'],
+                planet['designation'],
+                planet['habitable'],
+                planet['danger'],
+                planet['economy'],
+                planet['population'],
+                planet['thumbnail'],
+                int(planet['affiliation'][0][id]),
+                system
+            )
+            #c.execute(sql, planetData)
+        print "Planets added: " + ", ".join(planets)
+
+
+def getCities(planet):
     pass
 
-def getCities():
-    pass
-
-getSystems()
+systems = getSystems()
+planets = []
+cities = []
+for system in systems:
+    planets.append(getPlanets(system))
+    for planet in planets:
+        cities = getCities(planet)
 
 ####[ API Functions ]###########################################################
 
