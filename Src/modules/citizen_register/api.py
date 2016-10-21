@@ -103,7 +103,7 @@ def getPlanets(system):
     for obj in data:
         if obj['type'] == "PLANET":
             planet = obj
-            sql = "INSERT INTO planets (code, name, descirption, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            sql = "INSERT INTO planets (code, name, description, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             planets.append(planet['code'])
             if planet['habitable']:
                 planet['habitable'] = 1
@@ -139,8 +139,34 @@ def getPlanets(system):
     print "Planets added: " + ", ".join(planets)
     return planets
 
-def getCities(planet):
-    pass
+def getCities(planet, system):
+    url = "https://robertsspaceindustries.com/api/starmap/celestial-objects/" + planet
+    print url
+    try:
+        res = urllib2.urlopen(url, "")
+        data = json.load(res)["data"]["resultset"][0]
+        data = data['children']
+    except:
+        print "Failed loading URL"
+        data = []
+    cities = []
+    for obj in data:
+        # TODO: Add in check for moons and such...
+        if obj['type'] == "LZ":
+            city = obj
+            sql = "INSERT INTO homes (code, name, description, planet, system) VALUES (%s, %s, %s, %s, %s)"
+            cities.append(city['code'])
+
+            planetData = (
+                city['code'],
+                city['name'],
+                city['description'],
+                planet,
+                system
+            )
+            #c.execute(sql, planetData)
+    print "Cities added: " + ", ".join(cities)
+    return cities
 
 systems = getSystems()
 planets = []
@@ -148,7 +174,10 @@ cities = []
 for system in systems:
     planets.append(getPlanets(system))
     for planet in planets:
-        cities = getCities(planet)
+        cities.append(getCities(planet, system))
+print "Total Systems: " + str(len(systems))
+print "Total Planets: " + str(len(planets))
+print "Total Cities: " + str(len(cities))
 
 ####[ API Functions ]###########################################################
 
