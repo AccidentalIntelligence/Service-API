@@ -28,6 +28,7 @@ def storeSystem(sysData, db):
 
 def storePlanet(planetData, db):
     logging.debug("Storing planet: " + planetData[0])
+    print planetData
     sql = "INSERT INTO planets (code, name, description, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
