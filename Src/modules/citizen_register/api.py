@@ -88,3 +88,6 @@ def getResponse(query):
 
     if data_req == 'update':
         logging.info("Action requested: update")
+        return json.dumps(updateDatastore())
+    else:
+        return '{"error":"Unknown action"}'
