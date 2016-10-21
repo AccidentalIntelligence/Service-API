@@ -129,7 +129,7 @@ def getPlanets(system):
                 planet['economy'],
                 planet['population'],
                 planet['thumbnail'],
-                int(planet['affiliation'][0][id]),
+                int(planet['affiliation'][0]['id']),
                 system
             )
             #c.execute(sql, planetData)
