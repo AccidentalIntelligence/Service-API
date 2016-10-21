@@ -89,6 +89,7 @@ def getSystems():
 
 def getPlanets(system):
     url = "https://robertsspaceindustries.com/api/starmap/celestial-objects/" + system
+    print url
     try:
         res = urllib2.urlopen(url, "")
         data = json.load(res)["data"]
