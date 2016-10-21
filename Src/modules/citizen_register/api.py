@@ -96,7 +96,7 @@ def getPlanets(system):
     except:
         print "Failed loading URL"
         data = []
-        planets = []
+    planets = []
     for obj in data:
         if obj['type'] == "PLANET":
             sql = "INSERT INTO planets (code, name, descirption, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
