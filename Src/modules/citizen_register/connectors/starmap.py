@@ -149,10 +149,9 @@ def getCities(planet, system):
         # TODO: Add in check for moons and such...
         if obj['type'] == "LZ":
             city = obj
-
             cityData = (
                 city['code'],
-                city['name'],
+                city['designation'],
                 city['description'],
                 planet,
                 system
