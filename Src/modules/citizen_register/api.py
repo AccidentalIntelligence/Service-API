@@ -93,6 +93,7 @@ def getPlanets(system):
     try:
         res = urllib2.urlopen(url, "")
         data = json.load(res)["data"]
+        print data
         planets = []
         for obj in data['resultset'][0]['celestial_objects']:
             if obj['type'] == "PLANET":
