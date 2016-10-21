@@ -59,10 +59,14 @@ def getSystems():
 
         for system in data['systems']['resultset']:
 
-
+            try:
+                affiliation = int(system['affiliation'][0]['id'])
+            except:
+                affiliation = 0
             sysdata = (
                 system['code'],
                 system['name'],
+                affiliation,
                 system['description'],
                 system['type'],
                 system['id']

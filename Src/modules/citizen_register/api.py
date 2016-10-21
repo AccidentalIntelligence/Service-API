@@ -20,7 +20,7 @@ except ImportError:
 import connectors.starmap as starmap
 
 def storeSystem(sysData, db):
-    sql = "INSERT INTO systems (code, name, description, type, id) VALUES (%s, %s, %s, %s, %s)"
+    sql = "INSERT INTO systems (code, name, affiliation, description, type, id) VALUES (%s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     c.execute(sql, sysData)
