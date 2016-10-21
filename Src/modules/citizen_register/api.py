@@ -45,7 +45,7 @@ def clearData(db):
     pass
 
 def updateDatastore():
-    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname)
+    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname, use_unicode=True, charset="utf8")
     systems = starmap.getSystems()
     planets = {}
     cities = {}
