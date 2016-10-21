@@ -99,6 +99,7 @@ def getPlanets(system):
     planets = []
     for obj in data:
         if obj['type'] == "PLANET":
+            planet = obj
             sql = "INSERT INTO planets (code, name, descirption, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             planets.append(planet['code'])
             if planet['habitable']:
