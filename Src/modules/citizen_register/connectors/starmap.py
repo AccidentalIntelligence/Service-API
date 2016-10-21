@@ -112,6 +112,9 @@ def getPlanets(system):
                 print "Failed conversion..."
                 planet['danger'] = planet['economy'] = planet['population'] = 0
 
+            if not planet['name']:
+                planet['name'] = planet['designation']
+
             planetData = (
                 planet['code'],
                 planet['name'],
