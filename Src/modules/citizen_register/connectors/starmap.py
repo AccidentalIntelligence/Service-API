@@ -67,7 +67,7 @@ def getSystems():
                 system['code'],
                 system['name'],
                 affiliation,
-                system['description'],
+                system['description'].encode('utf-8'),
                 system['type'],
                 system['id']
             )
