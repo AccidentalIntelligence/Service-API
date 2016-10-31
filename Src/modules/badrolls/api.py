@@ -55,7 +55,7 @@ def getResponse(query):
         return '{"error":"missing action type"}'
     data_req = qs['a'][0]
 
-    if data_req = "info":
+    if data_req == "info":
         logging.info("Action requested: info")
         if not 'char' in qs:
             return '{"error":"Missing character name. Specify with: char=<name>"}'
@@ -63,7 +63,7 @@ def getResponse(query):
         result = getInfo(query)
         return json.dumps(result)
 
-    if data_req = "name":
+    if data_req == "name":
         logging.info("Action requested: name")
         if not 'twitch' in qs:
             return '{"error":"Missing twitch id. Specify with: twitch=<id>"}'
