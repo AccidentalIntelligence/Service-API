@@ -40,7 +40,7 @@ class MyHandler(BaseHTTPRequestHandler):
             query = path[path.index("?")+1:]
             path = path[0:path.index("?")].lstrip('/')
         try:
-            if path in available_apis:
+            if path in config.available_apis:
                 api = api_register[path]
                 sendResponse(self, 200, api_headers[api], api(query))
                 return
