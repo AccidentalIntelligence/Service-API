@@ -11,15 +11,7 @@ import modules.citizen_register.api as register
 
 from modules.api_helper import *
 
-# API Configuration
-port = 8396
-log_file = "service.log"
-log_format = '%(asctime)s:%(levelname)s:%(message)s'
-log_date_format = '%Y/%m/%d-%I:%M:%S'
-log_level = logging.DEBUG
-
-# specify which API's to expose
-available_apis = ['twitch','registry']
+import config
 
 def send404(handler, path):
     sendResponse(handler, 404, {'Content-Type':'application/xml'}, "<error>Path Error: /"+path+"</error>")
@@ -69,12 +61,11 @@ class APIServer(ThreadingMixIn, HTTPServer):
 
 
 def main(argv):
-    global port
-    logging.basicConfig(filename=log_file, format=log_format, datefmt=log_date_format, level=log_level)
+    logging.basicConfig(filename=config.log_file, format=config.log_format, datefmt=config.log_date_format, level=config.log_level)
 
     try:
-        server = APIServer(port)
-        logging.info('Started API Server on port: '+str(port))
+        server = APIServer(config.port)
+        logging.info('Started API Server on port: '+str(config.port))
         server.serve_forever()
 
     except KeyboardInterrupt:
