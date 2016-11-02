@@ -32,13 +32,39 @@ def getInfo(name):
 
 def getName(name):
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname, use_unicode=True, charset="utf8")
-    sql = "SELECT name FROM characters WHERE twitch=%s"
+    sql = "SELECT name FROM characters WHERE twitch=%(twitch)s"
     c = db.cursor(MySQLdb.cursors.DictCursor)
-
-    c.execute(sql, (name,))
+    params = {
+        "twitch":name
+    }
+    c.execute(sql, params)
     res = c.fetchall()[0]
     db.close()
     return res
+
+def updateChar(data):
+    db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname, use_unicode=True, charset="utf8")
+    sql = """UPDATE characters
+                SET ac=%(ac)s,
+                    dex=%(dex)s,
+                    dex_prof=%(dex_prof)s,
+                    intel=%(intel)s,
+                    int_prof=%(int_prof)s,
+                    cha=%(cha)s,
+                    cha_prof=%(cha_prof)s,
+                    wis=%(wis)s,
+                    wis_prof=%(wis_prof)s,
+                    str=%(str)s,
+                    str_prof=%(str_prof)s,
+                    class=%(class)s,
+                    full_name=%(full_name)s
+                    WHERE name=%(name)s"""
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+
+    c.execute(sql, data)
+    db.close()
+    return {"success":"true"}
+
 
 ####[ API Functions ]###########################################################
 
@@ -55,9 +81,9 @@ def getResponse(query):
         return '{"error":"missing user token"}'
     if not 'a' in qs:
         return '{"error":"missing action type"}'
-    data_req = qs['a'][0]
+    action = qs['a'][0]
 
-    if data_req == "info":
+    if action == "info":
         logging.info("Action requested: info")
         if not 'char' in qs:
             return '{"error":"Missing character name. Specify with: char=<name>"}'
@@ -65,10 +91,18 @@ def getResponse(query):
         result = getInfo(query)
         return json.dumps(result)
 
-    if data_req == "name":
+    if action == "name":
         logging.info("Action requested: name")
         if not 'twitch' in qs:
             return '{"error":"Missing twitch id. Specify with: twitch=<id>"}'
         query = qs['twitch'][0]
         result = getName(query)
+        return json.dumps(result)
+
+    if action == "update":
+        logging.info("Action requested: update")
+        if not 'data' in qs:
+            return '{"error":"Missing character data. Specify with: data={...}"}'
+        data = json.loads(qs['data'][0])
+        result = updateChar(data)
         return json.dumps(result)
