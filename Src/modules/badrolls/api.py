@@ -20,7 +20,7 @@ except ImportError:
 
 def getInfo(name):
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname, use_unicode=True, charset="utf8")
-    sql = "SELECT * FROM br_characters WHERE name=%s"
+    sql = "SELECT * FROM characters WHERE name=%s"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     c.execute(sql, (name,))
@@ -30,7 +30,7 @@ def getInfo(name):
 
 def getName(name):
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname, use_unicode=True, charset="utf8")
-    sql = "SELECT name FROM br_social WHERE type='twitch' AND value=%s"
+    sql = "SELECT name FROM characters WHERE twitch=%s"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     c.execute(sql, (name,))
