@@ -20,7 +20,7 @@ except ImportError:
 
 def getInfo(name):
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname, use_unicode=True, charset="utf8")
-    sql = "SELECT * FROM characters WHERE name=%s"
+    sql = "SELECT * FROM characters WHERE name=%(name)s"
     c = db.cursor(MySQLdb.cursors.DictCursor)
     params = {
         "name":name
