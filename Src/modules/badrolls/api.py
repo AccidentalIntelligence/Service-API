@@ -22,8 +22,10 @@ def getInfo(name):
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname, use_unicode=True, charset="utf8")
     sql = "SELECT * FROM characters WHERE name=%s"
     c = db.cursor(MySQLdb.cursors.DictCursor)
-
-    c.execute(sql, (name,))
+    params = {
+        "name":name
+    }
+    c.execute(sql, params)
     res = c.fetchall()[0]
     db.close()
     return res
