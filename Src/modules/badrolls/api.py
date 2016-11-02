@@ -59,9 +59,11 @@ def updateChar(data):
                     class=%(class)s,
                     full_name=%(full_name)s
                     WHERE name=%(name)s"""
+    print sql
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     c.execute(sql, data)
+    db.commit()
     db.close()
     return {"success":"true"}
 
