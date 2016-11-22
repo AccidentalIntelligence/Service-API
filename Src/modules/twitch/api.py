@@ -84,10 +84,10 @@ def getStreamStatus(channel):
 
     return result
 
-def getStreamInfo(channel):
+def getStreamInfo(name):
     db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
     c = db.cursor(MySQLdb.cursors.DictCursor)
-    c.execute("SELECT * FROM channel_info WHERE channel=%s", (channel,))
+    c.execute("SELECT * FROM channel_info WHERE name=%s", (name,))
     res = c.fetchall()
 
     now = time.time()
@@ -95,7 +95,7 @@ def getStreamInfo(channel):
 
     if len(res) == 0 or now - res[0]['last_checked'] > 3600:
         logging.debug("Channel not in DB, or record too old. Getting new status from Twitch API")
-        result = connector.getStreamInfo(channel)
+        result = connector.getStreamInfo(name)
         if result and result['name'] != '':
             storeInfo(result, now)
         else:
