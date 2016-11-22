@@ -43,7 +43,10 @@ def getStreamInfo(channel):
         response = urllib2.urlopen(url)
         data = json.load(response)
         if data['display_name']:
-            result['logo'] = data['logo']
+            if data['logo']:
+                result['logo'] = data['logo']
+            else:
+                result['logo'] = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_300x300.png"
             result['name'] = data['display_name']
         else:
             logging.info("Invalid channel specfied")
