@@ -93,7 +93,7 @@ def getStreamInfo(channel):
     now = time.time()
     result = {}
 
-    if len(res) == 0 or now - res[0]['last_checked'] > 60:
+    if len(res) == 0 or now - res[0]['last_checked'] > 3600:
         logging.debug("Channel not in DB, or record too old. Getting new status from Twitch API")
         result = connector.getStreamInfo(channel)
         if result and result['name'] != '':
