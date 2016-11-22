@@ -29,10 +29,31 @@ def storeStatus(data, when):
             live,
             viewers,
             game,
+            title,
             last_checked
-        ) VALUES (%s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s)
         """
-    params = (data['channel'], data['live'], data['viewers'], data['game'], when)
+    params = (data['channel'], data['live'], data['viewers'], data['game'], data['title'], when)
+
+    logging.debug(query)
+    logging.debug(params)
+
+    c.execute(query, params)
+    db.commit()
+    db.close()
+
+def storeInfo(data, when):
+    logging.debug("Storing Data: " + str(data) + " checked: " + str(when))
+    db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+
+    query = """REPLACE INTO channel_info (
+            channel,
+            logo,
+            last_checked
+        ) VALUES (%s, %s, %s)
+        """
+    params = (data['channel'], data['logo'], when)
 
     logging.debug(query)
     logging.debug(params)
@@ -53,8 +74,30 @@ def getStreamStatus(channel):
     if len(res) == 0 or now - res[0]['last_checked'] > 60:
         logging.debug("Channel not in DB, or record too old. Getting new status from Twitch API")
         result = connector.getStreamStatus(channel)
-        if result:
+        if result and result['channel'] != "":
             storeStatus(result, now)
+        else:
+            result = {'error':'Failed getting status from Twitch API'}
+    else:
+        logging.debug("Channel found in DB, retrieving")
+        result = res[0]
+
+    return result
+
+def getStreamInfo(channel):
+    db = MySQLdb.connect(host=config.dbhost, user=config.dbuser, passwd=config.dbpass, db=config.dbname)
+    c = db.cursor(MySQLdb.cursors.DictCursor)
+    c.execute("SELECT * FROM channel_info WHERE channel=%s", (channel,))
+    res = c.fetchall()
+
+    now = time.time()
+    result = {}
+
+    if len(res) == 0 or now - res[0]['last_checked'] > 60:
+        logging.debug("Channel not in DB, or record too old. Getting new status from Twitch API")
+        result = connector.getStreamInfo(channel)
+        if result and result['channel'] != '':
+            storeInfo(result, now)
         else:
             result = {'error':'Failed getting status from Twitch API'}
     else:
@@ -108,6 +151,15 @@ def getTwitchResponse(query):
             return '{"error":"missing query string"}'
         query = qs['q'][0]
         result = getStreamStatus(query)
+        return json.dumps(result)
+
+    # info of a given channel
+    if data_req == 'info':
+        logging.info("Action requested: info")
+        if not 'q' in qs:
+            return '{"error":"missing query string"}'
+        query = qs['q'][0]
+        result = getStreamInfo(query)
         return json.dumps(result)
 
     # count of all live streams
