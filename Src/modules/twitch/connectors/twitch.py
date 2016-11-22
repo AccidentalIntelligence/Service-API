@@ -44,11 +44,11 @@ def getStreamInfo(channel):
         data = json.load(response)
         if data['display_name']:
             result['logo'] = data['logo']
-            result['channel'] = data['display_name']
+            result['name'] = data['display_name']
         else:
             logging.info("Invalid channel specfied")
             result['logo'] = ""
-            result['channel'] = ""
+            result['name'] = ""
     except urllib2.URLError:
         return None
     return result

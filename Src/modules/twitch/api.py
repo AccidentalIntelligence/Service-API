@@ -48,12 +48,12 @@ def storeInfo(data, when):
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     query = """REPLACE INTO channel_info (
-            channel,
+            name,
             logo,
             last_checked
         ) VALUES (%s, %s, %s)
         """
-    params = (data['channel'], data['logo'], when)
+    params = (data['name'], data['logo'], when)
 
     logging.debug(query)
     logging.debug(params)
@@ -96,7 +96,7 @@ def getStreamInfo(channel):
     if len(res) == 0 or now - res[0]['last_checked'] > 60:
         logging.debug("Channel not in DB, or record too old. Getting new status from Twitch API")
         result = connector.getStreamInfo(channel)
-        if result and result['channel'] != '':
+        if result and result['name'] != '':
             storeInfo(result, now)
         else:
             result = {'error':'Failed getting status from Twitch API'}
