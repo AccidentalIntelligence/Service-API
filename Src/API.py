@@ -5,7 +5,6 @@ import sys
 import logging
 
 import modules.weather.api as weather
-import modules.bcw.api as barcode
 import modules.twitch.api as twitch
 import modules.citizen_register.api as register
 import modules.badrolls.api as badrolls
