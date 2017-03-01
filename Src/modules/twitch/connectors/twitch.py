@@ -25,6 +25,7 @@ def getStreamStatus(channel):
             result['live'] = 1
             result['channel'] = data['stream']['channel']['display_name']
             result['title'] = data['stream']['channel']['status']
+            result['logo'] = data['stream']['channel']['logo']
         else:
             logging.info("Channel offline.")
             result['viewers'] = 0
@@ -32,6 +33,7 @@ def getStreamStatus(channel):
             result['live'] = 0
             result['channel'] = ""
             result['title'] = ""
+            result['logo'] = ""
     except urllib2.URLError:
         return None
     return result
