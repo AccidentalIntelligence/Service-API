@@ -65,7 +65,11 @@ def main(argv):
 
     try:
         server = APIServer(config.port)
-        logging.info('Started API Server on port: '+str(config.port))
+        if config.ssl:
+            server.socket = ssl.wrap_socket (server.socket, keyfile=config.ssl_key, certfile=config.ssl_cert, server_side=True)
+            logging.info('Started SSL API Server on port: ' + str(config.port))
+        else:
+            logging.info('Started API Server on port: '+str(config.port))
         server.serve_forever()
 
     except KeyboardInterrupt:
