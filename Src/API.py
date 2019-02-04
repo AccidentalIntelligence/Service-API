@@ -9,6 +9,7 @@ import modules.weather.api as weather
 import modules.twitch.api as twitch
 import modules.citizen_register.api as register
 import modules.badrolls.api as badrolls
+import modules.starcitizen.api as starcitizen
 
 from modules.api_helper import *
 
