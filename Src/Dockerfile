@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install python-mysqldb
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Make port 80 available to the world outside this container
-EXPOSE 8396
+EXPOSE 4443
 
 # Run app.py when the container launches
 ENTRYPOINT ["python", "API.py"]
