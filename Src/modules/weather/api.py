@@ -351,7 +351,7 @@ def buildWeatherResponse(weatherData):
 
 #####[ API Functions ]####################
 @set_headers({'Content-Type':'application/xml'})
-@register_api("search")
+#@register_api("search")
 def getSearchResponse(query):
     # Valid query string: q=search+query&u=userToken
     if query == "":
@@ -367,7 +367,7 @@ def getSearchResponse(query):
     return buildSearchResponse(result)
 
 @set_headers({'Content-Type':'application/xml'})
-@register_api("weather")
+#@register_api("weather")
 def getWeatherResponse(query):
     if query == "":
         return "<error>empty query</error>"

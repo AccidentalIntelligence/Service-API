@@ -71,7 +71,7 @@ def updateChar(data):
 ####[ API Functions ]###########################################################
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
-@register_api("badrolls")
+#@register_api("badrolls")
 def getResponse(query):
     global has_config
     if not has_config:
