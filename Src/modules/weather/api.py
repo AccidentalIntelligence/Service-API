@@ -380,6 +380,6 @@ def getWeatherResponse(query):
     return buildWeatherResponse(result)
 
 @set_headers({'Content-Type':'application/xml'})
-@register_api("sync")
+#@register_api("sync")
 def sync_time():
     return "<time>"+str(time.time())+"</time>"
