@@ -39,6 +39,7 @@ def getStreamStatus(channel):
             result['title'] = ""
             result['logo'] = ""
     except urllib2.URLError:
+        logging.error("Unable to get stream status for channel: " + channel)
         return None
     return result
 
