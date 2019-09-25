@@ -71,6 +71,7 @@ def getStreamAtOffset(game, offset):
             return {"error":"Error getting random stream."}
 
     except urllib2.URLError:
+        logging.error("Could not get stream at offset")
         return {"error":"Unable to connect to Twitch API."}
 
 def getStreamCount(game):
@@ -78,6 +79,7 @@ def getStreamCount(game):
 
     try:
         response = urllib2.urlopen(url)
+        logging.debug(resopnse)
         data = json.load(response)
         if data['_total']:
             return data['_total']
@@ -85,4 +87,5 @@ def getStreamCount(game):
             return 0
 
     except urllib2.URLError:
+        logging.error("Could not request stream count")
         return 0
