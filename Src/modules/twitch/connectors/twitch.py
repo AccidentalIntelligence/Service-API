@@ -91,8 +91,8 @@ def getStreamCount(game):
         req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
         req.add_header('Client-ID', config['api']['client_id'])
         response = urllib2.urlopen(req)
-        logging.debug(response)
         data = json.load(response)
+        logging.debug(data)
         if data['_total']:
             return data['_total']
         else:
