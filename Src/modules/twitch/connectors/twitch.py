@@ -5,16 +5,19 @@ import urllib2
 
 # check config can be loaded
 try:
-    from .. import config
+    from ..config import config
 except ImportError:
     pass
 
 def getStreamStatus(channel):
-    url = "https://api.twitch.tv/kraken/streams/{channel}?client_id={client_id}".format(channel=channel, client_id=config.client_id)
+    url = "https://api.twitch.tv/kraken/streams/{channel}".format(channel=channel)
     result = {}
     result['channel'] = channel
     try:
-        response = urllib2.urlopen(url)
+        req = urllib2.Request(url)
+        req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
+        req.add_header('Client-ID', config['api']['client_id'])
+        response = urllib2.urlopen(req
         data = json.load(response)
         if data['stream']:
             result['viewers'] = data['stream']['viewers']
@@ -39,10 +42,13 @@ def getStreamStatus(channel):
     return result
 
 def getStreamInfo(channel):
-    url = "https://api.twitch.tv/kraken/channels/{channel}?client_id={client_id}".format(channel=channel, client_id=config.client_id)
+    url = "https://api.twitch.tv/kraken/channels/{channel}".format(channel=channel)
     result = {}
     try:
-        response = urllib2.urlopen(url)
+        req = urllib2.Request(url)
+        req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
+        req.add_header('Client-ID', config['api']['client_id'])
+        response = urllib2.urlopen(req)
         data = json.load(response)
         if data['display_name']:
             if data['logo']:
@@ -59,10 +65,13 @@ def getStreamInfo(channel):
     return result
 
 def getStreamAtOffset(game, offset):
-    url = "https://api.twitch.tv/kraken/streams/?game={g}&limit=1&offset={offset}&client_id={client_id}".format(g=game, offset=offset, client_id=config.client_id)
+    url = "https://api.twitch.tv/kraken/streams/?game={g}&limit=1&offset={offset}".format(g=game, offset=offset)
 
     try:
-        response = urllib2.urlopen(url)
+        rreq = urllib2.Request(url)
+        req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
+        req.add_header('Client-ID', config['api']['client_id'])
+        response = urllib2.urlopen(req
         data = json.load(response)
         stream = data['streams'][0]['channel']
         if 'name' in stream:
@@ -75,10 +84,13 @@ def getStreamAtOffset(game, offset):
         return {"error":"Unable to connect to Twitch API."}
 
 def getStreamCount(game):
-    url = "https://api.twitch.tv/kraken/streams/?game={g}&client_id={client_id}".format(g=game, client_id=config.client_id)
+    url = "https://api.twitch.tv/kraken/streams/?game={g}".format(g=game)
 
     try:
-        response = urllib2.urlopen(url)
+        req = urllib2.Request(url)
+        req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
+        req.add_header('Client-ID', config['api']['client_id'])
+        response = urllib2.urlopen(req
         logging.debug(resopnse)
         data = json.load(response)
         if data['_total']:
