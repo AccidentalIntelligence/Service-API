@@ -21,7 +21,7 @@ import connectors.twitch as connector
 
 def storeStatus(data, when):
     logging.debug("Storing Data: " + str(data) + " checked: " + str(when))
-    db = MySQLdb.connect(host=config['db']['dbhost'], user=config['db']['dbuser'], passwd=config['db']['dbpass'], db=config['db']['dbname'])
+    db = MySQLdb.connect(host=config['db']['host'], user=config['db']['user'], passwd=config['db']['pass'], db=config['db']['db'])
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     query = """REPLACE INTO channel_status (
@@ -44,7 +44,7 @@ def storeStatus(data, when):
 
 def storeInfo(data, when):
     logging.debug("Storing Data: " + str(data) + " checked: " + str(when))
-    db = MySQLdb.connect(host=config['db']['dbhost'], user=config['db']['dbuser'], passwd=config['db']['dbpass'], db=config['db']['dbname'])
+    db = MySQLdb.connect(host=config['db']['host'], user=config['db']['user'], passwd=config['db']['pass'], db=config['db']['db'])
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     query = """REPLACE INTO channel_info (
@@ -63,7 +63,7 @@ def storeInfo(data, when):
     db.close()
 
 def getStreamStatus(channel):
-    db = MySQLdb.connect(host=config['db']['dbhost'], user=config['db']['dbuser'], passwd=config['db']['dbpass'], db=config['db']['dbname'])
+    db = MySQLdb.connect(host=config['db']['host'], user=config['db']['user'], passwd=config['db']['pass'], db=config['db']['db'])
     c = db.cursor(MySQLdb.cursors.DictCursor)
     c.execute("SELECT * FROM channel_status WHERE channel=%s", (channel,))
     res = c.fetchall()
@@ -85,7 +85,7 @@ def getStreamStatus(channel):
     return result
 
 def getStreamInfo(name):
-    db = MySQLdb.connect(host=config['db']['dbhost'], user=config['db']['dbuser'], passwd=config['db']['dbpass'], db=config['db']['dbname'])
+    db = MySQLdb.connect(host=config['db']['host'], user=config['db']['user'], passwd=config['db']['pass'], db=config['db']['db'])
     c = db.cursor(MySQLdb.cursors.DictCursor)
     c.execute("SELECT * FROM channel_info WHERE name=%s", (name,))
     res = c.fetchall()
