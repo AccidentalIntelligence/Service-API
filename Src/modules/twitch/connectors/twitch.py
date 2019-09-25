@@ -19,6 +19,7 @@ def getStreamStatus(channel):
         req.add_header('Client-ID', config['api']['client_id'])
         response = urllib2.urlopen(req)
         data = json.load(response)
+        logging.debug(data)
         if data['stream']:
             result['viewers'] = data['stream']['viewers']
             if data['stream']['game']:
@@ -74,7 +75,7 @@ def getStreamAtOffset(game, offset):
         response = urllib2.urlopen(req)
         data = json.load(response)
         stream = data['streams'][0]['channel']
-        logging.debug(stream)
+
         if 'name' in stream:
             return getStreamStatus(stream['name'])
         else:
