@@ -68,7 +68,7 @@ def getStreamAtOffset(game, offset):
     url = "https://api.twitch.tv/kraken/streams/?game={g}&limit=1&offset={offset}".format(g=game, offset=offset)
 
     try:
-        rreq = urllib2.Request(url)
+        req = urllib2.Request(url)
         req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
         req.add_header('Client-ID', config['api']['client_id'])
         response = urllib2.urlopen(req)
@@ -91,7 +91,7 @@ def getStreamCount(game):
         req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
         req.add_header('Client-ID', config['api']['client_id'])
         response = urllib2.urlopen(req)
-        logging.debug(resopnse)
+        logging.debug(response)
         data = json.load(response)
         if data['_total']:
             return data['_total']
