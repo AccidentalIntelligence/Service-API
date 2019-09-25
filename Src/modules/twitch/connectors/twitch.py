@@ -17,7 +17,7 @@ def getStreamStatus(channel):
         req = urllib2.Request(url)
         req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
         req.add_header('Client-ID', config['api']['client_id'])
-        response = urllib2.urlopen(req
+        response = urllib2.urlopen(req)
         data = json.load(response)
         if data['stream']:
             result['viewers'] = data['stream']['viewers']
@@ -71,7 +71,7 @@ def getStreamAtOffset(game, offset):
         rreq = urllib2.Request(url)
         req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
         req.add_header('Client-ID', config['api']['client_id'])
-        response = urllib2.urlopen(req
+        response = urllib2.urlopen(req)
         data = json.load(response)
         stream = data['streams'][0]['channel']
         if 'name' in stream:
@@ -90,7 +90,7 @@ def getStreamCount(game):
         req = urllib2.Request(url)
         req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
         req.add_header('Client-ID', config['api']['client_id'])
-        response = urllib2.urlopen(req
+        response = urllib2.urlopen(req)
         logging.debug(resopnse)
         data = json.load(response)
         if data['_total']:
