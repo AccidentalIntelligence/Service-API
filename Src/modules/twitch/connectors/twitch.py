@@ -84,8 +84,8 @@ def getStreamAtOffset(game, offset):
         logging.debug(stream)
         
         #if stream:
-        logging.debug("Getting stream for ID: " + stream['_id'])
-        return None #getStreamStatus(stream['_id'])
+        logging.debug("Getting stream for ID: " + str(stream['_id']))
+        #return None #getStreamStatus(stream['_id'])
         #else:
          #   logging.error("Error getting random stream.")
 #            return {"error":"Error getting random stream."}
