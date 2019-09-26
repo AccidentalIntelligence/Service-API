@@ -82,13 +82,13 @@ def getStreamAtOffset(game, offset):
         logging.debug(data)
         stream = data['streams'][0]['channel']
         logging.debug(stream)
-
-        if stream:
-            logging.debug("Getting stream for ID: " + stream['_id'])
-            return getStreamStatus(stream['_id'])
-        else:
-            logging.error("Error getting random stream.")
-            return {"error":"Error getting random stream."}
+        
+        #if stream:
+        logging.debug("Getting stream for ID: " + stream['_id'])
+        return getStreamStatus(stream['_id'])
+        #else:
+         #   logging.error("Error getting random stream.")
+#            return {"error":"Error getting random stream."}
 
     except urllib2.URLError:
         logging.error("Could not get stream at offset")
