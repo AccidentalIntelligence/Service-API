@@ -78,7 +78,7 @@ def getStreamAtOffset(game, offset):
         response = urllib2.urlopen(req)
         data = json.load(response)
         stream = data['streams'][0]['channel']
-
+        logging.debug(stream['_id'])
         if '_id' in stream:
             return getStreamStatus(stream['_id'])
         else:
