@@ -13,6 +13,7 @@ def getStreamStatus(channel_id):
     url = "https://api.twitch.tv/kraken/streams/{channel}".format(channel=channel_id)
     result = {}
     result['channel'] = channel
+    logging.debug(url)
     try:
         req = urllib2.Request(url)
         req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
