@@ -12,7 +12,7 @@ except ImportError:
 def getStreamStatus(channel_id):
     url = "https://api.twitch.tv/kraken/streams/{channel}".format(channel=channel_id)
     result = {}
-    result['channel'] = channel
+    result['channel'] = channel_id
     logging.debug(url)
     try:
         req = urllib2.Request(url)
@@ -82,6 +82,7 @@ def getStreamAtOffset(game, offset):
         logging.debug(stream['_id'])
         logging.debug(stream)
         if '_id' in stream.keys():
+            logging.debug("Getting stream for ID: " + stream['_id'])
             return getStreamStatus(stream['_id'])
         else:
             logging.error("Error getting random stream.")
