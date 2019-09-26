@@ -9,8 +9,8 @@ try:
 except ImportError:
     pass
 
-def getStreamStatus(channel):
-    url = "https://api.twitch.tv/kraken/streams/{channel}".format(channel=channel)
+def getStreamStatus(channel_id):
+    url = "https://api.twitch.tv/kraken/streams/{channel}".format(channel=channel_id)
     result = {}
     result['channel'] = channel
     try:
@@ -27,7 +27,8 @@ def getStreamStatus(channel):
             else:
                 result['game'] = 'None'
             result['live'] = 1
-            result['channel'] = data['stream']['channel']['display_name']
+            result['channel'] = data['stream']['channel']['_id']
+            result['name'] = data['stream']['channel']['display_name']
             result['title'] = data['stream']['channel']['status']
             result['logo'] = data['stream']['channel']['logo']
         else:
@@ -36,6 +37,7 @@ def getStreamStatus(channel):
             result['game'] = ""
             result['live'] = 0
             result['channel'] = ""
+            result['name'] = ""
             result['title'] = ""
             result['logo'] = ""
     except urllib2.URLError:
@@ -77,8 +79,8 @@ def getStreamAtOffset(game, offset):
         data = json.load(response)
         stream = data['streams'][0]['channel']
 
-        if 'name' in stream:
-            return getStreamStatus(stream['name'])
+        if '_id' in stream:
+            return getStreamStatus(stream['_id'])
         else:
             return {"error":"Error getting random stream."}
 
