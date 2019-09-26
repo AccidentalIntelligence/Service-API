@@ -10,6 +10,7 @@ except ImportError:
     pass
 
 def getStreamStatus(channel_id):
+    logging.debug("Getting stream status...")
     url = "https://api.twitch.tv/kraken/streams/{channel}".format(channel=channel_id)
     result = {}
     result['channel'] = channel_id
@@ -78,8 +79,10 @@ def getStreamAtOffset(game, offset):
         req.add_header('Client-ID', config['api']['client_id'])
         response = urllib2.urlopen(req)
         data = json.load(response)
+        logging.debug(data)
         stream = data['streams'][0]['channel']
-        
+        logging.debug(stream)
+
         if stream:
             logging.debug("Getting stream for ID: " + stream['_id'])
             return getStreamStatus(stream['_id'])
