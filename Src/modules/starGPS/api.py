@@ -27,7 +27,7 @@ def getTwitchResponse(query):
         return '{"error":"No configuration loaded for StarGPS API"}'
     if query == "":
         return '{"error":"Empty query"}'
-    qs = cgi.parse_sq(query)
+    qs = cgi.parse_qs(query)
     if not 'key' in qs:
         return '{"error":"missing API token"}'
 
