@@ -25,3 +25,10 @@ def set_headers(headers):
         api_headers[func] = headers
         return wrapped
     return wrap
+
+def auth_request(key):
+    #TODO: Add in API key check here...
+    if not key:
+        return False
+    else:
+        return True
