@@ -14,12 +14,13 @@ except ImportError:
     has_config = False
     logging.debug("Cannot load config for the StarCitizen API. The API will not function.")
 
-def get_location
+def get_location():
+    pass
 
 ####[ API Functions ]###########################################################
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
-@register_api("stargps/locate")
+@register_api("stargps/test")
 def getTwitchResponse(query):
     global has_config
     if not has_config:
