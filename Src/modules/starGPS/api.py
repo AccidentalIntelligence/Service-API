@@ -31,7 +31,7 @@ def getTwitchResponse(query):
     if not 'key' in qs:
         return '{"error":"missing API token"}'
 
-    api_key = qs['k'][0]
+    api_key = qs['key'][0]
     if not auth_request(api_key):
         return '{"error":"API Key Invalid"}'
 
