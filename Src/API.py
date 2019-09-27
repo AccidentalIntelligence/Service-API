@@ -10,6 +10,7 @@ import modules.twitch.api as twitch
 import modules.citizen_register.api as register
 import modules.badrolls.api as badrolls
 import modules.starcitizen.api as starcitizen
+import modules.starGPS.api as starGPS
 
 from modules.api_helper import *
 
