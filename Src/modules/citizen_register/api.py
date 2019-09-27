@@ -73,7 +73,7 @@ def updateDatastore():
 
 ####[ API Functions ]###########################################################
 
-@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
+#@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
 #@register_api("registry")
 def getResponse(query):
     global has_config

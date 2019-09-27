@@ -23,7 +23,7 @@ def getOrgInfo(sid):
 ####[ API Functions ]###########################################################
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.sfco.info'})
-#@register_api("starcitizen")
+@register_api("starcitizen")
 def getTwitchResponse(query):
     global has_config
     if not has_config:
