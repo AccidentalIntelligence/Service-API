@@ -29,6 +29,7 @@ def sendResponse(handler, code, headers, data):
     return
 
 def check_api(path, name):
+    logging.debug("checking api: " + name)
     if path.endswith(name) and name in available_apis:
         return True
     return False
@@ -42,6 +43,8 @@ class MyHandler(BaseHTTPRequestHandler):
             query = path[path.index("?")+1:]
             path = path[0:path.index("?")].lstrip('/')
         try:
+            logging.debug("path: " + path)
+            logging.debug(config.available_apis)
             if path in config.available_apis:
                 api = api_register[path]
                 sendResponse(self, 200, api_headers[api], api(query))
