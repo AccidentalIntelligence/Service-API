@@ -2,3 +2,4 @@ httplib2
 mysqlclient
 requests
 beautifulsoup4
+numpy
