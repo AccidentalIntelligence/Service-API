@@ -24,10 +24,10 @@ def getOrgInfo(sid):
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.sfco.info'})
 @register_api("starcitizen")
-def getTwitchResponse(query):
+def getSCResponse(query):
     global has_config
     if not has_config:
-        return '{"error":"No configuration loaded for Twitch API"}'
+        return '{"error":"No configuration loaded for StarCitizen API"}'
     if query == "":
         return '{"error":"empty query"}'
     qs = cgi.parse_qs(query)

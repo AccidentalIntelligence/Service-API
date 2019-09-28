@@ -2,6 +2,8 @@ import cgi
 import json
 import logging
 
+import geolocate as geo
+
 from ..api_helper import *
 
 has_config = False
@@ -21,7 +23,7 @@ def get_location():
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
 @register_api("stargps/test")
-def getTwitchResponse(query):
+def getGPSLocation(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarGPS API"}'
@@ -39,8 +41,18 @@ def getTwitchResponse(query):
         return '{"error":"Missing query data"}'
 
     data = json.loads(qs['data'][0])
+    data = {
+        "ranges": {
+            "OM1": 110.4,
+            "OM3": 306.4,
+            "OM4": 308.5,
+            "OM5": 263.0
+        },
+        "bounds": 516
+    }
+    res = geo.compute(data)
 
-    return '{"data":"'+json.dumps(data)+'"}'
+    return '{"data":"'+json.dumps(res)+'"}'
 
 
     
