@@ -71,7 +71,7 @@ def init_markers(ranges):
             om.append(m)
         else:
             tmp = m
-        om.append(m)
+    om.append(tmp)
 
     print "Orbital Markers:"
     for m in om:
