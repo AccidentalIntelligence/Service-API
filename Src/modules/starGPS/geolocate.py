@@ -49,7 +49,7 @@ def check_ranges(ranges):
 
 
 def init_markers(ranges):
-    global om, markers
+    global om
 
     # Marker X/Y locations, relative to area size
 
@@ -66,7 +66,6 @@ def init_markers(ranges):
 
     for key in ranges.keys():
         m = Marker(key, offsets[key][0] * bounds, offsets[key][1] * bounds, offsets[key][2] * bounds, ranges[key])
-        markers[key] = m
         if key not in ["OM1", "OM2"]:
             om.append(m)
         else:
@@ -75,7 +74,7 @@ def init_markers(ranges):
 
     print "Orbital Markers:"
     for m in om:
-        print "\t" + str(markers[m])
+        print "\t" + str(m)
     return True
 
 def compute_circles():
