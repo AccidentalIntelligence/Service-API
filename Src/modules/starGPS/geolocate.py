@@ -93,9 +93,9 @@ def compute_circles():
     xc = (np.square(om[2].range) + np.square(dist[2]) - np.square(om[0].range)) / (2 * dist[2])
 
 # Y-distance of the two intersection points from the origin
-    ya = math.sqrt(np.square(om[0].range) - np.square(xa))
-    yb = math.sqrt(np.square(om[1].range) - np.square(xb))
-    yc = math.sqrt(np.square(om[2].range) - np.square(xc))
+    ya = np.sqrt(np.square(om[0].range) - np.square(xa))
+    yb = np.sqrt(np.square(om[1].range) - np.square(xb))
+    yc = np.sqrt(np.square(om[2].range) - np.square(xc))
 
     if ya < 0:
         return "Circle A has no intersections"
@@ -224,7 +224,7 @@ def compute_lines(data):
     vecCA_y = s1c['y'] - s1a['y']
 
 # Unit Vector
-    vecA = math.sqrt(np.square(vecA_x) + np.square(vecA_y))
+    vecA = np.sqrt(np.square(vecA_x) + np.square(vecA_y))
     exa = vecA_x / vecA
     eya = vecA_y / vecA
 
@@ -233,7 +233,7 @@ def compute_lines(data):
     normA_y = exa
 
 # Unit Vector
-    vecB = math.sqrt(np.square(vecB_x) + np.square(vecB_y))
+    vecB = np.sqrt(np.square(vecB_x) + np.square(vecB_y))
     exb = vecB_x / vecB
     eyb = vecB_y / vecB
 
@@ -242,7 +242,7 @@ def compute_lines(data):
     normB_y = exb
 
 # Unit Vector
-    vecC = math.sqrt(np.square(vecC_x) + np.square(vecC_y))
+    vecC = np.sqrt(np.square(vecC_x) + np.square(vecC_y))
     exc = vecC_x / vecC
     eyc = vecC_y / vecC
 
