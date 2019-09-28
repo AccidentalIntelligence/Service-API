@@ -41,15 +41,7 @@ def getGPSLocation(query):
         return '{"error":"Missing query data"}'
 
     data = json.loads(qs['data'][0])
-    data = {
-        "ranges": {
-            "OM1": 110.4,
-            "OM3": 306.4,
-            "OM4": 308.5,
-            "OM5": 263.0
-        },
-        "bounds": 516
-    }
+
     res = geo.compute(data)
 
     return '{"data":"'+res+'"}'
