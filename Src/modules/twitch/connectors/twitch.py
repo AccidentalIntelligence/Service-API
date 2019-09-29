@@ -50,6 +50,7 @@ def getStreamStatus(channel_id):
 def getStreamInfo(channel):
     url = "https://api.twitch.tv/kraken/channels/{channel}".format(channel=channel)
     result = {}
+    result['channel'] = channel
     try:
         req = urllib2.Request(url)
         req.add_header('Accept', 'application/vnd.twitchtv.v5+json')
