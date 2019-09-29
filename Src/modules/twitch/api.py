@@ -48,12 +48,13 @@ def storeInfo(data, when):
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     query = """REPLACE INTO channel_info (
+            channel,
             name,
             logo,
             last_checked
         ) VALUES (%s, %s, %s)
         """
-    params = (data['name'], data['logo'], when)
+    params = (data['channel'], data['name'], data['logo'], when)
 
     logging.debug(query)
     logging.debug(params)
