@@ -52,7 +52,7 @@ def storeInfo(data, when):
             name,
             logo,
             last_checked
-        ) VALUES (%s, %s, %s)
+        ) VALUES (%s, %s, %s, %s)
         """
     params = (data['channel'], data['name'], data['logo'], when)
 
