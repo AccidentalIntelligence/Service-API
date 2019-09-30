@@ -70,7 +70,14 @@ class MyHandler(BaseHTTPRequestHandler):
                 content_len = int(self.headers.getheader('content-length', 0))
                 data = self.rfile.read(content_len)
                 print data
-        pass
+                api = api_register[path]
+                sendResponse(self, 200, api_headers[api], api(data))
+                return
+            else:
+                send404(self, path)
+                return
+        except IOError as details:
+            self.send_error(404, 'IOError: ' + str(details))
 
 
 class APIServer(ThreadingMixIn, HTTPServer):
