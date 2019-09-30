@@ -47,7 +47,7 @@ def getGPSLocation(query):
 
     res = geo.compute(data)
 
-    return '{"data":"'+res+'"}'
+    return '{"data":'+res+'}'
 
 
     
