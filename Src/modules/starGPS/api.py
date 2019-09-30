@@ -27,22 +27,22 @@ def getGPSLocation(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarGPS API"}'
-'''        
-    if query == "":
-        return '{"error":"Empty query"}'
-    qs = cgi.parse_qs(query)
-    if not 'key' in qs:
-        return '{"error":"missing API token"}'
 
-    api_key = qs['key'][0]
-    if not auth_request(api_key):
-        return '{"error":"API Key Invalid"}'
+    #if query == "":
+    #    return '{"error":"Empty query"}'
+    #qs = cgi.parse_qs(query)
+    #if not 'key' in qs:
+    #    return '{"error":"missing API token"}'
 
-    if not 'data' in qs:
-        return '{"error":"Missing query data"}'
+    #api_key = qs['key'][0]
+    #if not auth_request(api_key):
+    #    return '{"error":"API Key Invalid"}'
 
-    data = json.loads(qs['data'][0])
-'''
+    #if not 'data' in qs:
+    #    return '{"error":"Missing query data"}'
+
+    #data = json.loads(qs['data'][0])
+
     data = json.loads(query)
 
     res = geo.compute(data)
