@@ -17,7 +17,6 @@ class Marker:
 ###[ Config Values ]################################
 
 bounds = 0 #distance between opposite OMs
-markers = {}
 om = []
 
 
@@ -294,7 +293,6 @@ def compute_lines(data):
     return loc
 
 def compute_z(loc):
-    global markers
     '''
     Hypotenuse = range -> OM1
     A distance from target location to center of sphere
@@ -325,8 +323,9 @@ def fix_loc(loc):
     return _loc
 
 def compute(data):
-    global bounds
+    global bounds, om
     bounds = data['bounds']
+    om = []
 
     if check_ranges(data['ranges']):
         init_markers(data['ranges'])
