@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import json
 
 # Class to hold orbital markers
 class Marker:
@@ -333,6 +334,9 @@ def compute(data):
         d = compute_lines(d)
         loc = compute_z(d)
         loc = fix_loc(loc)
-        return "Target is at coordinates = x:{0} y:{1} z:{2}".format(loc['x'], loc['y'], loc['z'])
+        coords = {
+            "coords": loc
+        }
+        return json.dumps(coords)
     else:
         return "Invalid data sent!"
