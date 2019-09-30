@@ -35,6 +35,9 @@ def check_api(path, name):
         return True
     return False
 
+def check_api_key(key):
+    return True
+
 class MyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):

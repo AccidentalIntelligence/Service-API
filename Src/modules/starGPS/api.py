@@ -22,11 +22,12 @@ def get_location():
 ####[ API Functions ]###########################################################
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
-@register_api("stargps/test")
+@register_api("stargps/locate")
 def getGPSLocation(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarGPS API"}'
+'''        
     if query == "":
         return '{"error":"Empty query"}'
     qs = cgi.parse_qs(query)
@@ -41,6 +42,8 @@ def getGPSLocation(query):
         return '{"error":"Missing query data"}'
 
     data = json.loads(qs['data'][0])
+'''
+    data = json.loads(query)
 
     res = geo.compute(data)
 
