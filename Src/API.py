@@ -59,6 +59,17 @@ class MyHandler(BaseHTTPRequestHandler):
 
 
     def do_POST(self):
+        path = self.path
+        query = ""
+        if path.find("?") > 0:
+            query = path[path.index("?")+1:]
+            path = path[0:path.index("?")].lstrip('/')
+        try:
+            print("path: " + path)
+            if path in config.available_apis:
+                content_len = int(self.headers.getheader('content-length', 0))
+                data = self.rfile.read(content_len)
+                print data
         pass
 
 
