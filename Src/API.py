@@ -73,7 +73,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 content_len = int(self.headers.getheader('content-length', 0))
                 data = self.rfile.read(content_len)
                 print "Data:"
-                print data
+                print str(data)
                 api = api_register[path]
                 sendResponse(self, 200, api_headers[api], api(data))
                 return
