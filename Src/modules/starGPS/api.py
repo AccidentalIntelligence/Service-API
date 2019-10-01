@@ -36,33 +36,53 @@ def get_system(name):
 
 #  {"name": "Wolf Point", "type": "Shelter", "coords": {"x":276.443536,"y":-9.384236,"z":103.100625}}
 def get_location(name):
-    ret = {
-        "id": 2,
-        "name": "Daymar",
-        "designation": "Stanton IIc",
-        "description": "Dusty Moon",
-        "type": "Sattelite",
-        "subtype": "Moon",
-        "parent": "Crusader",
-        "habitable": 0,
-        "msl": 295.5,
-        "atmo": 29.5,
-        "om_radius": 464.9,
-        "sattelites": [],
-        "POIs": [
-            {
-                "id": 3,
-                "system": "Stanton",
-                "location": "Daymar",
-                "name": "Wolf Point",
-                "owner": "Unknown",
-                "type": "Mining",
-                "altitude": 0,
-                "coords": {"x":276.443536,"y":-9.384236,"z":103.100625},
-                "facilities": "",
-            }
-        ]
+    test_data = {
+        "Daymar": {
+            "id": 2,
+            "name": "Daymar",
+            "designation": "Stanton IIc",
+            "description": "Dusty Moon",
+            "type": "Sattelite",
+            "subtype": "Moon",
+            "parent": "Crusader",
+            "habitable": 0,
+            "msl": 295.5,
+            "atmo": 29.5,
+            "om_radius": 464.9,
+            "sattelites": [],
+            "POIs": [
+                {
+                    "id": 3,
+                    "system": "Stanton",
+                    "location": "Daymar",
+                    "name": "Wolf Point",
+                    "owner": "Unknown",
+                    "type": "Mining",
+                    "altitude": 0,
+                    "coords": {"x":276.443536,"y":-9.384236,"z":103.100625},
+                    "facilities": "",
+                }
+            ]
+        },
+        "Yela": {
+            "id": 2,
+            "name": "Yela",
+            "designation": "Stanton IIa",
+            "description": "Cold Moon",
+            "type": "Sattelite",
+            "subtype": "Moon",
+            "parent": "Crusader",
+            "habitable": 0,
+            "msl": 295.5,
+            "atmo": 29.5,
+            "om_radius": 464.9,
+            "sattelites": [],
+            "POIs": [
+            ]
+        },
     }
+
+    ret = test_data[name]
     return ret
 
 def get_poi(name):
