@@ -108,7 +108,7 @@ def getLocationInfo(query):
     print
     data = json.loads(query)
 
-    res = get_system(data['system'])
+    res = get_location(data['location'])
     return '{"data":'+res+'}'
 
 
@@ -121,6 +121,6 @@ def getPOIInfo(query):
 
     data = json.loads(query)
 
-    res = get_system(data['system'])
+    res = get_poi(data['poi'])
     return '{"data":'+res+'}'
 
