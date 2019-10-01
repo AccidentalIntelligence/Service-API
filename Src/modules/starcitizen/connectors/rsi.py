@@ -27,7 +27,7 @@ def bs_parse(html, baseurl):
     for div in html.select('div'):
         if div.get('id') == 'organization':
             print div.h1.get_text()
-            parsed['name'] = div.h1.get_text().split("/").rstrip()
+            parsed['name'] = div.h1.get_text().split("/")[0]
 
             for d in div.select('div'):
                 if 'banner' in d['class']:
