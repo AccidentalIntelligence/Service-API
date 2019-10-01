@@ -13,7 +13,7 @@ except ImportError:
 
 
 def getOrgInfo(sid):
-    baseurl = "https://robertsspaceindustries.com/"
+    baseurl = "https://robertsspaceindustries.com"
 
     html = simple_get(baseurl + '/orgs/' + sid)
     data = bs_parse(html, baseurl)
