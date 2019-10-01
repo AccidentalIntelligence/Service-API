@@ -22,6 +22,9 @@ def getOrgInfo(sid):
     
 def bs_parse(html, baseurl):
     parsed = {}
+    print
+    print html
+    print
     html = BeautifulSoup(html, 'html.parser')
     
     for div in html.select('div'):
