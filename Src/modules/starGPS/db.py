@@ -1,3 +1,5 @@
+import MySQLdb
+
 from config import config
 
 def get_system(name):
