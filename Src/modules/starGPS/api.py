@@ -94,7 +94,7 @@ def getSystemInfo(query):
     data = json.loads(query)
 
     res = get_system(data['system'])
-    return '{"data":'+res+'}'
+    return '{"data":'+json.dumps(res)+'}'
 
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
@@ -109,7 +109,7 @@ def getLocationInfo(query):
     data = json.loads(query)
 
     res = get_location(data['location'])
-    return '{"data":'+res+'}'
+    return '{"data":'+json.dumps(res)+'}'
 
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
@@ -122,5 +122,5 @@ def getPOIInfo(query):
     data = json.loads(query)
 
     res = get_poi(data['poi'])
-    return '{"data":'+res+'}'
+    return '{"data":'+json.dumps(res)+'}'
 
