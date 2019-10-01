@@ -1,4 +1,5 @@
 import MySQLdb
+import json
 
 from config import config
 
@@ -27,6 +28,8 @@ def get_location(name):
     c = db.cursor(MySQLdb.cursors.DictCursor)
     c.execute("SELECT * FROM poi WHERE location=%s", (name,))
     POIs = c.fetchall()
+    for poi in POIs:
+        poi['coords'] = json.loads(poi['coords'])
     location["POIs"] = POIs
 
     return location
