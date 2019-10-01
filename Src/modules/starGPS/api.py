@@ -4,6 +4,8 @@ import logging
 
 import geolocate as geo
 
+import db as db
+
 from ..api_helper import *
 
 has_config = False
@@ -81,8 +83,10 @@ def get_location(name):
             ]
         },
     }
+    ret = db.get_location(name)
 
-    ret = test_data[name]
+
+    #ret = test_data[name]
     return ret
 
 def get_poi(name):
@@ -123,9 +127,7 @@ def getLocationInfo(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarGPS API"}'
-    print 
-    print query
-    print
+
     data = json.loads(query)
 
     res = get_location(data['location'])
