@@ -103,7 +103,9 @@ def getLocationInfo(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarGPS API"}'
-
+    print 
+    print query
+    print
     data = json.loads(query)
 
     res = get_system(data['system'])
