@@ -17,13 +17,45 @@ def getOrgInfo(sid):
 
     html = simple_get(baseurl + '/orgs/' + sid)
     if html:
-        data = bs_parse(html, baseurl)
+        data = bs_parse_org(html, baseurl)
     else:
         data = {"Error": "Org not found."}
     return data
 
+def getCitizenInfo(name):
+    baseurl = "https://robertsspaceindustries.com"
+
+    html = simple_get(baseurl + '/citizens/' + name)
+    if html:
+        data = bs_parse_citizen(html, baseurl)
+    else:
+        data = {"Error": "Citizen not found."}
+    return data
+
     
-def bs_parse(html, baseurl):
+def bs_parse_org(html, baseurl):
+    parsed = {}
+    html = BeautifulSoup(html, 'html.parser')
+    
+    for div in html.select('div'):
+        if div.get('id') == 'organization':
+            print div.h1.get_text()
+            parsed['name'] = div.h1.get_text().split("/")[0].rstrip()
+
+            for d in div.select('div'):
+                if 'banner' in d['class']:
+                    parsed['banner'] = baseurl + d.img['src']
+                
+                if 'logo' in d['class']:
+                    parsed['logo'] = baseurl + d.img['src']
+                    parsed['count'] = d.span.text.split(" ")[0]
+
+                if 'body' in d['class']:
+                    parsed['bio'] = d.get_text()
+
+    return parsed
+
+def bs_parse_citizen(html, baseurl):
     parsed = {}
     html = BeautifulSoup(html, 'html.parser')
     
