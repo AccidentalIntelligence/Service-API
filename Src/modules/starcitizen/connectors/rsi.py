@@ -16,7 +16,10 @@ def getOrgInfo(sid):
     baseurl = "https://robertsspaceindustries.com"
 
     html = simple_get(baseurl + '/orgs/' + sid)
-    data = bs_parse(html, baseurl)
+    if html:
+        data = bs_parse(html, baseurl)
+    else:
+        data = {"Error": "Org not found."}
     return data
 
     
@@ -27,7 +30,7 @@ def bs_parse(html, baseurl):
     for div in html.select('div'):
         if div.get('id') == 'organization':
             print div.h1.get_text()
-            parsed['name'] = div.h1.get_text().split("/")[0]
+            parsed['name'] = div.h1.get_text().split("/")[0].rstrip()
 
             for d in div.select('div'):
                 if 'banner' in d['class']:
