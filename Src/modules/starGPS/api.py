@@ -131,6 +131,9 @@ def getLocationInfo(query):
     data = json.loads(query)
 
     res = get_location(data['location'])
+    print
+    print res
+    print
     return '{"data":'+json.dumps(res)+'}'
 
 
