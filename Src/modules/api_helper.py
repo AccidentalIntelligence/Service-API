@@ -1,3 +1,4 @@
+from ..config import config
 #has_config = {}
 api_register = dict()
 api_headers = dict()
@@ -6,12 +7,15 @@ def register_api(api):
     global api_register
     def wrap(func):
         # do pre-wrap
-        print "Registering API: " + api
-        def wrapped(query):
-            return func(query)
-        wrapped.func_name = func.func_name
-        api_register[api] = wrapped
-        return wrapped
+        if api in config['available_apis']:
+            print "Registering API: " + api
+            def wrapped(query):
+                return func(query)
+            wrapped.func_name = func.func_name
+            api_register[api] = wrapped
+            return wrapped
+        else:
+            return None
         # do post-wrap
     return wrap
 
