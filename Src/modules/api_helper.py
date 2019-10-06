@@ -1,4 +1,4 @@
-from ..config import config
+from config import config
 #has_config = {}
 api_register = dict()
 api_headers = dict()
