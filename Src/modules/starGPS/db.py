@@ -12,12 +12,14 @@ def get_system(name):
         c.execute("SELECT * FROM systems WHERE name=%s", (name,))
         res = c.fetchall()[0]
         
+        print res
         # Get system locations
         res['locations'] = []
         c.execute("SELECT name FROM systems WHERE parent=%s", (name,))
         locs = c.fetchall()
         for loc in locs:
             res['locations'].append(loc['name'])
+        print res
         return res
     except MySQLdb.Error, e:
         
@@ -36,7 +38,6 @@ def get_location(name):
         c = db.cursor(MySQLdb.cursors.DictCursor)
         c.execute("SELECT * FROM locations WHERE name=%s", (name,))
         location = c.fetchall()[0]
-
 
         # Get sattelite locations
         location['sattelites'] = []
