@@ -11,6 +11,8 @@ def get_system(name):
         c = db.cursor(MySQLdb.cursors.DictCursor)
         c.execute("SELECT * FROM systems WHERE name=%s", (name,))
         res = c.fetchall()
+
+        print res
         
         # Get system locations
         res['locations'] = []
