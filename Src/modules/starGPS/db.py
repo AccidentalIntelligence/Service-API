@@ -9,16 +9,17 @@ def get_system(name):
         # Get basic system info
         db = MySQLdb.connect(host=config['db']['host'], user=config['db']['user'], passwd=config['db']['pass'], db=config['db']['db'])
         c = db.cursor(MySQLdb.cursors.DictCursor)
-        c.execute("SELECT * FROM systems WHERE name=%s", (name,))
+        c.execute("SELECT name,affiliation,description FROM systems WHERE name=%s", (name,))
         res = c.fetchall()[0]
         
         print res
         # Get system locations
-        res['locations'] = []
+        #res['locations'] = []
         c.execute("SELECT name FROM locations WHERE parent=%s", (name,))
         locs = c.fetchall()
-        for loc in locs:
-            res['locations'].append(loc['name'])
+        #for loc in locs:
+        #    res['locations'].append(loc['name'])
+        res['locations'] = locs
         print res
         return res
     except MySQLdb.Error, e:
@@ -49,7 +50,10 @@ def get_location(name):
         POIs = c.fetchall()
         for poi in POIs:
             poi['coords'] = json.loads(poi['coords'])
+            poi['facilities'] = json.loads(poi['facilities'])
         location["POIs"] = POIs
+
+        print location
 
         return location
     except MySQLdb.Error, e:

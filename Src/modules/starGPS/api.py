@@ -94,8 +94,8 @@ def add_location(data):
     # Validate data has all the proper fields and field types here...
     db.add_location(data)
 
-def get_poi(name):
-    pass
+def get_poi(name, location):
+    return db.get_poi(name, location)
 
 def add_poi(data):
     # Validate data has all the proper fields and field types here...
@@ -126,7 +126,7 @@ def getSystemInfo(query):
 
     data = json.loads(query)
 
-    res = get_system(data['system'])
+    res = get_system(data['query'])
     return '{"data":'+json.dumps(res)+'}'
 
 
@@ -139,10 +139,8 @@ def getLocationInfo(query):
 
     data = json.loads(query)
 
-    res = get_location(data['location'])
-    print
-    print res
-    print
+    res = get_location(data['query'])
+
     return '{"data":'+json.dumps(res)+'}'
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
@@ -155,14 +153,12 @@ def addLocationInfo(query):
     data = json.loads(query)
 
     res = add_location(data)
-    print
-    print res
-    print
+
     return '{"data":'+json.dumps(res)+'}'
 
 
-@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
-@register_api("stargps/poi")
+#@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
+#@register_api("stargps/poi")
 def getPOIInfo(query):
     global has_config
     if not has_config:
@@ -170,6 +166,6 @@ def getPOIInfo(query):
 
     data = json.loads(query)
 
-    res = get_poi(data['poi'])
+    res = get_poi(data['name'], data['location'])
     return '{"data":'+json.dumps(res)+'}'
 
