@@ -10,9 +10,7 @@ def get_system(name):
         db = MySQLdb.connect(host=config['db']['host'], user=config['db']['user'], passwd=config['db']['pass'], db=config['db']['db'])
         c = db.cursor(MySQLdb.cursors.DictCursor)
         c.execute("SELECT * FROM systems WHERE name=%s", (name,))
-        res = c.fetchall()
-
-        print res
+        res = c.fetchall()[0]
         
         # Get system locations
         res['locations'] = []
