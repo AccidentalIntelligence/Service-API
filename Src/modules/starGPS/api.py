@@ -34,6 +34,7 @@ def get_system(name):
             "Yela"
         ]
     }
+    ret = db.get_system(name)
     return ret
 
 #  {"name": "Wolf Point", "type": "Shelter", "coords": {"x":276.443536,"y":-9.384236,"z":103.100625}}
@@ -89,8 +90,16 @@ def get_location(name):
     #ret = test_data[name]
     return ret
 
+def add_location(data):
+    # Validate data has all the proper fields and field types here...
+    db.add_location(data)
+
 def get_poi(name):
     pass
+
+def add_poi(data):
+    # Validate data has all the proper fields and field types here...
+    db.add_poi(data)
 
 ####[ API Functions ]###########################################################
 
@@ -131,6 +140,21 @@ def getLocationInfo(query):
     data = json.loads(query)
 
     res = get_location(data['location'])
+    print
+    print res
+    print
+    return '{"data":'+json.dumps(res)+'}'
+
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
+@register_api("stargps/addLocation")
+def addLocationInfo(query):
+    global has_config
+    if not has_config:
+        return '{"error":"No configuration loaded for StarGPS API"}'
+
+    data = json.loads(query)
+
+    res = add_location(data)
     print
     print res
     print

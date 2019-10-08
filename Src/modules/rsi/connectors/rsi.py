@@ -39,7 +39,6 @@ def bs_parse_org(html, baseurl):
     
     for div in html.select('div'):
         if div.get('id') == 'organization':
-            print div.h1.get_text()
             parsed['name'] = div.h1.get_text().split("/")[0].rstrip()
 
             for d in div.select('div'):
@@ -60,17 +59,14 @@ def bs_parse_citizen(html, baseurl):
     html = BeautifulSoup(html, 'html.parser')
     
     for div in html.select('div'):
-        if div.get('id') == 'organization':
-            print div.h1.get_text()
-            parsed['name'] = div.h1.get_text().split("/")[0].rstrip()
+        if div.get('id') == 'public-profile':
 
             for d in div.select('div'):
-                if 'banner' in d['class']:
-                    parsed['banner'] = baseurl + d.img['src']
+                if 'profile-content' in d.get('class'):
+                    parsed['CitizenNo'] = d.p.string.text
                 
-                if 'logo' in d['class']:
+                if 'thumb' in d.get('class'):
                     parsed['logo'] = baseurl + d.img['src']
-                    parsed['count'] = d.span.text.split(" ")[0]
 
                 if 'body' in d['class']:
                     parsed['bio'] = d.get_text()

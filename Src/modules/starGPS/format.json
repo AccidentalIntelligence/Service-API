@@ -1,0 +1,45 @@
+systems = {
+     "id": "314",
+     "name": "Stanton",
+     "affiliation": "UEE",
+     "description": "",
+     "locations": []
+}
+
+types = {
+    "P": "Planet",
+    "S": "Sattelite (Moon)",
+    "M": "Man Made Structure"
+}
+
+locations = {
+        "id": "1695",
+        "name": "Crusader",
+        "designation": "Stanton II",
+        "description": "",
+        "type": "P",
+        "subtype": "Gas Giant",
+        "parent": "Stanton",
+        "habitable": true,
+        "poi":[],
+        "sattelites":[],
+        "MSL": 0,
+        "Atmo": 0,
+        "om_radius": 0
+    }
+
+poi = {
+    "id": "1",
+    "system": "314",
+    "location": "1695",
+    "name": "",
+    "owner": "",
+    "type":"",
+    "altitude":"",
+    "coords": {\"x\":276.443536,\"y\":-9.384236,\"z\":103.100625},
+    "facilities": ""
+}
+
+facility = {
+    "type": "",
+}
