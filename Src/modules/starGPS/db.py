@@ -15,7 +15,7 @@ def get_system(name):
         print res
         # Get system locations
         res['locations'] = []
-        c.execute("SELECT name FROM systems WHERE parent=%s", (name,))
+        c.execute("SELECT name FROM locations WHERE parent=%s", (name,))
         locs = c.fetchall()
         for loc in locs:
             res['locations'].append(loc['name'])
