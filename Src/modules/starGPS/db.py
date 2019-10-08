@@ -14,12 +14,12 @@ def get_system(name):
         
         print res
         # Get system locations
-        #res['locations'] = []
+        res['locations'] = []
         c.execute("SELECT name FROM locations WHERE parent=%s", (name,))
         locs = c.fetchall()
-        #for loc in locs:
-        #    res['locations'].append(loc['name'])
-        res['locations'] = locs
+        for loc in locs:
+            res['locations'].append(loc['name'])
+ 
         print res
         return res
     except MySQLdb.Error, e:

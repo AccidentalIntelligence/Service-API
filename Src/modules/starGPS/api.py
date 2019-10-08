@@ -94,6 +94,8 @@ def add_location(data):
     # Validate data has all the proper fields and field types here...
     db.add_location(data)
 
+    return {"result":"Success!"}
+
 def get_poi(name, location):
     return db.get_poi(name, location)
 
