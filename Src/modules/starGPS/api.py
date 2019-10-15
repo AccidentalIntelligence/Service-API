@@ -133,7 +133,7 @@ def getSystemInfo(query):
 
 
 #@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
-@set_headers({'Content-Type':'application/json'})
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("stargps/location")
 def getLocationInfo(query):
     global has_config
