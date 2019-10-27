@@ -83,6 +83,28 @@ class MyHandler(BaseHTTPRequestHandler):
         except IOError as details:
             self.send_error(404, 'IOError: ' + str(details))
 
+    def do_OPTIONS(self):
+        path = self.path
+        query = ""
+        if path.find("?") > 0:
+            query = path[path.index("?")+1:]
+            path = path[0:path.index("?")].lstrip('/')
+        try:
+            print("path: " + path)
+            if path in config.available_apis:
+                content_len = int(self.headers.getheader('content-length', 0))
+                data = self.rfile.read(content_len)
+                print "Data:"
+                print str(data)
+                api = api_register[path]
+                sendResponse(self, 200, api_headers[api], "")
+                return
+            else:
+                send404(self, path)
+                return
+        except IOError as details:
+            self.send_error(404, 'IOError: ' + str(details))
+
 
 class APIServer(ThreadingMixIn, HTTPServer):
     def __init__(self, port):
