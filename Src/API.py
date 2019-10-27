@@ -94,6 +94,7 @@ class MyHandler(BaseHTTPRequestHandler):
             if path in config.available_apis:
                 api = api_register[path]
                 headers = api_headers[api]
+                del headers['Content-Type']
                 headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
                 headers['Access-Control-Max-Age'] = 86400
                 sendResponse(self, 204, api_headers[api], "")
