@@ -97,6 +97,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 del headers['Content-Type']
                 headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
                 headers['Access-Control-Max-Age'] = 86400
+                headers['Access-Control-Allow-Headers'] = "content-type"
                 sendResponse(self, 204, api_headers[api], "")
                 return
             else:
