@@ -92,12 +92,11 @@ class MyHandler(BaseHTTPRequestHandler):
         try:
             print("path: " + path)
             if path in config.available_apis:
-                content_len = int(self.headers.getheader('content-length', 0))
-                data = self.rfile.read(content_len)
-                print "Data:"
-                print str(data)
                 api = api_register[path]
-                sendResponse(self, 200, api_headers[api], "")
+                headers = api_headers[api]
+                headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS"
+                headers['Access-Control-Max-Age'] = 86400
+                sendResponse(self, 204, api_headers[api], "")
                 return
             else:
                 send404(self, path)
