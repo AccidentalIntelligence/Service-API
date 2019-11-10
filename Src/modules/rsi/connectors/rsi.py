@@ -1,6 +1,7 @@
 import json
 import logging
 from requests import get
+from requests import post
 from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
@@ -35,7 +36,7 @@ def getCitizenInfo(name):
 def getNews():
     baseurl = "https://robertsspaceindustries.com"
 
-    html = simple_get(baseurl + '/api/hub/getSeries')
+    html = simple_post(baseurl + '/api/hub/getSeries')
     if html:
         data = json.loads(html)
     else:
@@ -86,6 +87,19 @@ def simple_get(url):
     print url
     try:
         with closing(get(url, stream=True)) as resp:
+            print resp
+            if is_good_response(resp):
+                return resp.content
+            else:
+                return None
+    except RequestException as e:
+        logging.error('Error during requests to {0} : {1}'.format(url, str(e)))
+        return None
+
+def simple_post(url):
+    print url
+    try:
+        with closing(post(url, stream=True)) as resp:
             print resp
             if is_good_response(resp):
                 return resp.content
