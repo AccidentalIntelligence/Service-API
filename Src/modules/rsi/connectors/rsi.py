@@ -106,12 +106,12 @@ def bs_parse_news(html, baseurl):
         content = {}
         content['link'] = baseurl + a.get('href')
         for div in a.select("div"):
-            if 'background' in d.get('class'):
+            if 'background' in div.get('class'):
                 # Grab the image
                 pass
-            if 'title' in d.get('class'):
+            if 'title' in div.get('class'):
                 content['title'] = div.get_text
-            if 'time_ago' in d.get('class'):
+            if 'time_ago' in div.get('class'):
                 content['posted'] = div.select("span")[0].get_text
             
         parsed.append(content)
