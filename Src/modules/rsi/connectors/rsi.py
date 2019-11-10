@@ -37,6 +37,7 @@ def getNews():
     baseurl = "https://robertsspaceindustries.com"
 
     html = simple_post(baseurl + '/api/hub/getSeries')
+
     if html:
         data = json.loads(html)
     else:
@@ -111,8 +112,9 @@ def simple_post(url):
 
 def is_good_response(resp):
     content_type = resp.headers['Content-Type'].lower()
+    print content_type
     return (
         resp.status_code == 200
         and content_type is not None
-        and content_type.find('html') > -1
+        and (content_type.find('html') > -1 or content_type.find('json') > -1)
     )
