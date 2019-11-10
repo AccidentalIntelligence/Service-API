@@ -104,7 +104,16 @@ def bs_parse_news(html, baseurl):
     print soup
     for a in soup.select('a'):
         content = {}
-        content['href'] = a.get('href')
+        content['link'] = baseurl + a.get('href')
+        for div in a.select("div"):
+            if 'background' in d.get('class'):
+                # Grab the image
+                pass
+            if 'title' in d.get('class'):
+                content['title'] = div.get_text
+            if 'time_ago' in d.get('class'):
+                content['posted'] = div.select("span")[0].get_text
+            
         parsed.append(content)
     return parsed
 
