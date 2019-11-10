@@ -100,7 +100,6 @@ def bs_parse_citizen(html, baseurl):
 
 def bs_parse_news(html, baseurl):
     parsed = {}
-    print html
     soup = BeautifulSoup(html, 'html.parser')
     print soup
     return soup
