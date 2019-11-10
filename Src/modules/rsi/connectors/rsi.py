@@ -80,7 +80,7 @@ def bs_parse_org(html, baseurl):
     return parsed
 
 def bs_parse_citizen(html, baseurl):
-    parsed = {}
+    parsed = []
     html = BeautifulSoup(html, 'html.parser')
     
     for div in html.select('div'):
