@@ -53,7 +53,7 @@ def getNewsItems():
     res = simple_post(baseurl + "/api/hub/getCommlinkItems", data)
 
     if res:
-        return res['data']
+        return res
     else:
         return "Failed"
 
