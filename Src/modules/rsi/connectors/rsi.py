@@ -50,10 +50,10 @@ def getNewsItems():
 
     data = {"channel": "","series":"","type":"","text":"","sort":"publish_new","page":1}
 
-    html = simple_post(baseurl + "/api/hub/getCommlinkItems", data)
+    res = simple_post(baseurl + "/api/hub/getCommlinkItems", data)
 
-    if html:
-        return html
+    if res:
+        return res['data']
     else:
         return "Failed"
 
