@@ -102,7 +102,11 @@ def bs_parse_news(html, baseurl):
     parsed = {}
     soup = BeautifulSoup(html, 'html.parser')
     print soup
-    return soup
+    for a in soup.select('a'):
+        content = {}
+        content['href'] = a.get('href')
+        parsed.append(content)
+    return parsed
 
 def simple_get(url):
     print url
