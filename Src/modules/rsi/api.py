@@ -60,3 +60,13 @@ def getOrgInfo(query):
     result = rsi.getCitizenInfo(query)
     return json.dumps(result)
 
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://uee.life'})
+@register_api("rsi/news")
+def getOrgInfo(query):
+    global has_config
+    if not has_config:
+        return '{"error":"No configuration loaded for StarCitizen API"}'
+
+    logging.info("Action requested: news")
+    result = rsi.getNews()
+    return json.dumps(result)

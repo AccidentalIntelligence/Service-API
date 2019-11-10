@@ -32,6 +32,15 @@ def getCitizenInfo(name):
         data = {"Error": "Citizen not found."}
     return data
 
+def getNews():
+    baseurl = "https://robertsspaceindustries.com"
+
+    html = simple_get(baseurl + '/api/hub/getSeries')
+    if html:
+        data = json.loads(html)
+    else:
+        data = {"Error": "Couldn't fetch news."}
+    return data
     
 def bs_parse_org(html, baseurl):
     parsed = {}
