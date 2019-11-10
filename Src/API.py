@@ -41,11 +41,11 @@ def check_api_key(key):
 class MyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        path = self.path
+        path = self.path.lstrip('/')
         query = ""
         if path.find("?") > 0:
             query = path[path.index("?")+1:]
-            path = path[0:path.index("?")].lstrip('/')
+            path = path[0:path.index("?")]
         try:
             print("path: " + path)
             print(config.available_apis)
