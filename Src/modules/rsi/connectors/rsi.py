@@ -108,7 +108,7 @@ def bs_parse_news(html, baseurl):
         for div in a.select("div"):
             if 'background' in div.get('class'):
                 # Grab the image
-                pass
+                content['image'] = baseurl + div.get('style').split("'")[1]
             if 'title' in div.get('class'):
                 content['title'] = div.get_text()
             if 'time_ago' in div.get('class'):
