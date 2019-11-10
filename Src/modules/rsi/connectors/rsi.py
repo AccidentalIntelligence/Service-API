@@ -100,8 +100,10 @@ def bs_parse_citizen(html, baseurl):
 
 def bs_parse_news(html, baseurl):
     parsed = {}
-    html = BeautifulSoup(html, 'html.parser')
-    return html
+    print html
+    soup = BeautifulSoup(html, 'html.parser')
+    print soup
+    return soup
 
 def simple_get(url):
     print url
