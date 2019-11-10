@@ -101,7 +101,6 @@ def bs_parse_citizen(html, baseurl):
 def bs_parse_news(html, baseurl):
     parsed = []
     soup = BeautifulSoup(html, 'html.parser')
-    print soup
     for a in soup.select('a'):
         content = {}
         content['link'] = baseurl + a.get('href')
