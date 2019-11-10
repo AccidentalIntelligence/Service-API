@@ -42,7 +42,21 @@ def getNews():
         data = json.loads(html)
     else:
         data = {"Error": "Couldn't fetch news."}
-    return data
+    return getNewsItems()
+    #return data['data']
+
+def getNewsItems():
+    baseurl = "https://robertsspaceindustries.com"
+
+    data = {"channel": "","series":"","type":"","text":"","sort":"publish_new","page":1}
+
+    html = simple_post(baseurl + "/api/hub/getCommlinkItems", data)
+
+    if html:
+        return html
+    else:
+        return "Failed"
+
     
 def bs_parse_org(html, baseurl):
     parsed = {}
@@ -97,10 +111,10 @@ def simple_get(url):
         logging.error('Error during requests to {0} : {1}'.format(url, str(e)))
         return None
 
-def simple_post(url):
+def simple_post(url, data={}):
     print url
     try:
-        with closing(post(url, stream=True)) as resp:
+        with closing(post(url, data=data, stream=True)) as resp:
             print resp
             if is_good_response(resp):
                 return resp.content
