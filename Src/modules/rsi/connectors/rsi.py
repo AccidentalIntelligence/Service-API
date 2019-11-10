@@ -53,7 +53,7 @@ def getNewsItems():
     res = simple_post(baseurl + "/api/hub/getCommlinkItems", data)
 
     if res:
-        return json.loads(res)['data']
+        return bs_parse_news(json.loads(res)['data'])
     else:
         return "Failed"
 
@@ -97,6 +97,11 @@ def bs_parse_citizen(html, baseurl):
                     parsed['bio'] = d.get_text()
 
     return parsed
+
+def bs_parse_news(html, baseurl):
+    parsed = {}
+    html = BeautifulSoup(html, 'html.parser')
+    return html
 
 def simple_get(url):
     print url
