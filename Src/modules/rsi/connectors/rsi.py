@@ -78,9 +78,6 @@ def bs_parse_citizen(html, baseurl):
             for d in div.select('div'):
                 if 'profile-content' in d.get('class'):
                     parsed['record'] = d.p.strong.text
-                
-                if 'thumb' in d.get('class'):
-                    parsed['portrait'] = baseurl + d.img['src']
 
                 if 'bio' in d['class']:
                     parsed['bio'] = d.div.get_text()
@@ -93,6 +90,9 @@ def bs_parse_citizen(html, baseurl):
                     for d2 in d.select('div'):
                         if 'info' in d2['class']:
                             parsed['name'] = d2.p.strong.get_text()
+                            
+                        if 'thumb' in d.get('class'):
+                            parsed['portrait'] = baseurl + d.img['src']
                 
                 if 'main-org' in d['class']:
                     for d2 in d.select('div'):
