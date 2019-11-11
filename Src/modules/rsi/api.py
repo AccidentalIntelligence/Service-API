@@ -66,6 +66,11 @@ def getOrgInfo(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarCitizen API"}'
+    query = {
+        
+    }
+    if(query):
+        qs = cgi.parse_qs(query)
 
     logging.info("Action requested: news")
     result = rsi.getNews()
