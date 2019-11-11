@@ -82,7 +82,7 @@ def getNews(query):
         print(qs)
         for k in data.keys():
             if k in qs:
-                data[k] = qs[k]
+                data[k] = qs[k][0]
     print(data)
 
     logging.info("Action requested: news")

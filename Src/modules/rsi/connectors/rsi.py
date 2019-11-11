@@ -33,22 +33,10 @@ def getCitizenInfo(name):
         data = {"Error": "Citizen not found."}
     return data
 
-def getNews(query):
+def getNews(data):
     baseurl = "https://robertsspaceindustries.com"
 
-    html = simple_post(baseurl + '/api/hub/getSeries', json.dumps(query))
-
-    if html:
-        data = json.loads(html)
-    else:
-        data = {"Error": "Couldn't fetch news."}
-    return getNewsItems()
-    #return data['data']
-
-def getNewsItems():
-    baseurl = "https://robertsspaceindustries.com"
-
-    data = {"channel": "","series":"","type":"","text":"","sort":"publish_new","page":1}
+    #data = {"channel": "","series":"","type":"","text":"","sort":"publish_new","page":1}
 
     res = simple_post(baseurl + "/api/hub/getCommlinkItems", data)
 
