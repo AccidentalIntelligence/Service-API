@@ -68,7 +68,7 @@ def getNews(query):
         return '{"error":"No configuration loaded for StarCitizen API"}'
 
     #{channel: "", series: "", type: "", text: "", sort: "publish_new", page: 7}
-    query = {
+    data = {
         "channel": "",
         "series": "",
         "type": "",
