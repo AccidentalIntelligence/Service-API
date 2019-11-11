@@ -101,7 +101,11 @@ def bs_parse_news(html, baseurl):
                 # Grab the image
                 style = div.get('style')
                 if style:
-                    content['image'] = baseurl + style.split("'")[1]
+                    path = style.split("'")[1]
+                    if path.startswith("http"):
+                        content['image'] = path
+                    else:
+                        content['image'] = baseurl + style.split("'")[1]
                 else:
                     content['image'] = baseurl + "/media/jkfgas4ihmfghr/channel_item_full/BookReport_FI_2.jpg"
             if 'title' in div.get('class'):
