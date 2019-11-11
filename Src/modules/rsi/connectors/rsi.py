@@ -23,12 +23,13 @@ def getOrgInfo(sid):
         data = {"Error": "Org not found."}
     return data
 
-def getCitizenInfo(name):
+def getCitizenInfo(handle):
     baseurl = "https://robertsspaceindustries.com"
 
-    html = simple_get(baseurl + '/citizens/' + name)
+    html = simple_get(baseurl + '/citizens/' + handle)
     if html:
         data = bs_parse_citizen(html, baseurl)
+        data['handle'] = handle
     else:
         data = {"Error": "Citizen not found."}
     return data
