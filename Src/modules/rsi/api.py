@@ -89,5 +89,5 @@ def getNews(query):
     print(data)
 
     logging.info("Action requested: news")
-    result = rsi.getNews(query)
+    result = rsi.getNews(data)
     return json.dumps(result)
