@@ -6,7 +6,7 @@ def register_api(api):
     global api_register
     def wrap(func):
         # do pre-wrap
-        print "Registering API: " + api
+        print("Registering API: " + api)
         def wrapped(query):
             return func(query)
         wrapped.func_name = func.func_name
@@ -18,7 +18,7 @@ def register_api(api):
 def set_headers(headers):
     global api_headers
     def wrap(func):
-        print "Adding headers: " + str(headers)
+        print("Adding headers: " + str(headers))
         def wrapped(query):
             return func(query)
         wrapped.func_name = func.func_name

@@ -77,8 +77,9 @@ def getNews(query):
         "page": "1"
     }
     if(query):
-        print qs
+        print(query)
         qs = cgi.parse_qs(query)
+        print(qs)
 
     logging.info("Action requested: news")
     result = rsi.getNews(query)
