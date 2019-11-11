@@ -88,6 +88,12 @@ def bs_parse_citizen(html, baseurl):
                     if d.p and d.p.span and d.p.span.text == "Enlisted":
                         parsed['enlisted'] = d.p.strong.get_text()
 
+                if 'profile' in d['class']:
+                    for d2 in d.select('div'):
+                        if 'info' in d2['class']:
+                            parsed['name'] = d2.p.strong.get_text()
+
+
     return parsed
 
 def bs_parse_news(html, baseurl):
