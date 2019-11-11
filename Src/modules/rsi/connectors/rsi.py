@@ -90,9 +90,8 @@ def bs_parse_news(html, baseurl):
     parsed = []
     soup = BeautifulSoup(html, 'html.parser')
 
-    print(soup)
-
     for a in soup.select('a'):
+        print(a)
         content = {}
         content['link'] = baseurl + a.get('href')
         for div in a.select("div"):
