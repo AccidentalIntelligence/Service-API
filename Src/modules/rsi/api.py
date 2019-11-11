@@ -31,8 +31,6 @@ def getOrgInfo(query):
     if query == "":
         return '{"error":"empty query"}'
     qs = cgi.parse_qs(query)
-    if not 'u' in qs:
-        return '{"error":"missing user token"}'
 
     logging.info("Action requested: org")
     if not 'q' in qs:
@@ -50,8 +48,6 @@ def getOrgInfo(query):
     if query == "":
         return '{"error":"empty query"}'
     qs = cgi.parse_qs(query)
-    if not 'u' in qs:
-        return '{"error":"missing user token"}'
 
     logging.info("Action requested: citizen")
     if not 'q' in qs:
