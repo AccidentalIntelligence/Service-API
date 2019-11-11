@@ -91,7 +91,6 @@ def bs_parse_news(html, baseurl):
     soup = BeautifulSoup(html, 'html.parser')
 
     for a in soup.select('a'):
-        print(a)
         content = {}
         if a.get('href'):
             content['link'] = baseurl + a.get('href')
@@ -110,10 +109,8 @@ def bs_parse_news(html, baseurl):
     return parsed
 
 def simple_get(url):
-    print url
     try:
         with closing(get(url, stream=True)) as resp:
-            print resp
             if is_good_response(resp):
                 return resp.content
             else:
@@ -123,11 +120,8 @@ def simple_get(url):
         return None
 
 def simple_post(url, data={}):
-    print url
-    print data
     try:
         with closing(post(url=url, data=data, stream=True)) as resp:
-            print resp
             if is_good_response(resp):
                 return resp.content
             else:
@@ -138,7 +132,6 @@ def simple_post(url, data={}):
 
 def is_good_response(resp):
     content_type = resp.headers['Content-Type'].lower()
-    print content_type
     return (
         resp.status_code == 200
         and content_type is not None
