@@ -99,9 +99,9 @@ def bs_parse_citizen(html, baseurl):
                         if 'thumb' in d2['class']:
                             parsed['org'] = d2.a.get('href').split('/')[2]
                         if 'info' in d2['class']:
-                            for s in d2.select('strong'):
-                                if 'data15' in s['class']:
-                                    parsed['orgRank'] = s.get_text()
+                            for p in d2.select('p'):
+                                if p.span and p.span.get_text() == "Organization rank":
+                                    parsed['orgRank'] = p.strong.get_text()
 
 
     return parsed
