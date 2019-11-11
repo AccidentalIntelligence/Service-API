@@ -97,7 +97,7 @@ def bs_parse_citizen(html, baseurl):
                 if 'main-org' in d['class']:
                     for d2 in d.select('div'):
                         if 'thumb' in d2['class']:
-                            parsed['org'] = d2.a.href.split('/')[2]
+                            parsed['org'] = d2.a.get('href').split('/')[2]
 
 
     return parsed
