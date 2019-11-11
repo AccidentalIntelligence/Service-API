@@ -91,7 +91,7 @@ def bs_parse_citizen(html, baseurl):
                         if 'info' in d2['class']:
                             parsed['name'] = d2.p.strong.get_text()
 
-                        if 'thumb' in d['class']:
+                        if 'thumb' in d2['class']:
                             parsed['portrait'] = baseurl + d.img['src']
                 
                 if 'main-org' in d['class']:
