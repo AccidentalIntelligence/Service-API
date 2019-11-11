@@ -85,7 +85,7 @@ def bs_parse_citizen(html, baseurl):
                     parsed['bio'] = d.div.get_text()
                 
                 if 'inner' in d['class']:
-                    if d.p and d.p.span.text == "Enlisted":
+                    if d.p and d.p.span and d.p.span.text == "Enlisted":
                         parsed['enlisted'] = d.p.strong.get_text()
 
     return parsed
