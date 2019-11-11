@@ -33,10 +33,10 @@ def getCitizenInfo(name):
         data = {"Error": "Citizen not found."}
     return data
 
-def getNews():
+def getNews(query):
     baseurl = "https://robertsspaceindustries.com"
 
-    html = simple_post(baseurl + '/api/hub/getSeries')
+    html = simple_post(baseurl + '/api/hub/getSeries', json.dumps(query))
 
     if html:
         data = json.loads(html)

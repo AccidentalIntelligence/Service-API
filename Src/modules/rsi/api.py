@@ -81,5 +81,5 @@ def getOrgInfo(query):
         print qs
 
     logging.info("Action requested: news")
-    result = rsi.getNews()
+    result = rsi.getNews(query)
     return json.dumps(result)
