@@ -119,8 +119,9 @@ def simple_get(url):
 
 def simple_post(url, data={}):
     print url
+    print data
     try:
-        with closing(post(url, data=data, stream=True)) as resp:
+        with closing(post(url=url, data=data, stream=True)) as resp:
             print resp
             if is_good_response(resp):
                 return resp.content
