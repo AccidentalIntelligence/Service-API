@@ -40,8 +40,7 @@ def getNews(data):
 
     res = simple_post(baseurl + "/api/hub/getCommlinkItems", data)
 
-    if res and json.loads(res)['data']:
-        print(res)
+    if res:
         return bs_parse_news(json.loads(res)['data'], baseurl)
     else:
         return "No Data"
@@ -50,7 +49,7 @@ def getNews(data):
 def bs_parse_org(html, baseurl):
     parsed = {}
     html = BeautifulSoup(html, 'html.parser')
-    
+    print(html)
     for div in html.select('div'):
         if div.get('id') == 'organization':
             parsed['name'] = div.h1.get_text().split("/")[0].rstrip()
