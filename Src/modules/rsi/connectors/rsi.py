@@ -76,6 +76,7 @@ def bs_parse_citizen(html, baseurl):
 
             for d in div.select('div'):
                 if 'profile-content' in d.get('class'):
+                    print(d)
                     parsed['CitizenNo'] = d.p.string.text
                 
                 if 'thumb' in d.get('class'):
