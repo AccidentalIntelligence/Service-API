@@ -93,7 +93,10 @@ def bs_parse_news(html, baseurl):
     for a in soup.select('a'):
         print(a)
         content = {}
-        content['link'] = baseurl + a.get('href')
+        if a.get('href'):
+            content['link'] = baseurl + a.get('href')
+        else:
+            content['link'] = ""
         for div in a.select("div"):
             if 'background' in div.get('class'):
                 # Grab the image
