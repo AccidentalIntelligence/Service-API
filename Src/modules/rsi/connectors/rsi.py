@@ -90,7 +90,7 @@ def bs_parse_citizen(html, baseurl):
                     for d2 in d.select('div'):
                         if 'info' in d2['class']:
                             parsed['name'] = d2.p.strong.get_text()
-                            
+
                         if 'thumb' in d.get('class'):
                             parsed['portrait'] = baseurl + d.img['src']
                 
@@ -98,6 +98,10 @@ def bs_parse_citizen(html, baseurl):
                     for d2 in d.select('div'):
                         if 'thumb' in d2['class']:
                             parsed['org'] = d2.a.get('href').split('/')[2]
+                        if 'info' in d2['class']:
+                            for s in d2.select('strong'):
+                                if 'data15' in s['class']:
+                                    parsed['orgRank'] = s.get_text()
 
 
     return parsed
