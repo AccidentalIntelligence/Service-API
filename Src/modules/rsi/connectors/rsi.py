@@ -77,7 +77,7 @@ def bs_parse_citizen(html, baseurl):
 
             for d in div.select('div'):
                 if 'profile-content' in d.get('class'):
-                    parsed['CitizenNo'] = d.p.strong.text
+                    parsed['record'] = d.p.strong.text
                 
                 if 'thumb' in d.get('class'):
                     parsed['logo'] = baseurl + d.img['src']
