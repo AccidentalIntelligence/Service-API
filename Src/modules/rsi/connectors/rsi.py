@@ -80,7 +80,7 @@ def bs_parse_citizen(html, baseurl):
                     parsed['record'] = d.p.strong.text
                 
                 if 'thumb' in d.get('class'):
-                    parsed['logo'] = baseurl + d.img['src']
+                    parsed['portrait'] = baseurl + d.img['src']
 
                 if 'bio' in d['class']:
                     parsed['bio'] = d.div.get_text()
