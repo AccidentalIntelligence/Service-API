@@ -49,7 +49,7 @@ def getNews(data):
 def bs_parse_org(html, baseurl):
     parsed = {}
     html = BeautifulSoup(html, 'html.parser')
-    print(html)
+
     for div in html.select('div'):
         if div.get('id') == 'organization':
             parsed['name'] = div.h1.get_text().split("/")[0].rstrip()
@@ -89,6 +89,9 @@ def bs_parse_citizen(html, baseurl):
 def bs_parse_news(html, baseurl):
     parsed = []
     soup = BeautifulSoup(html, 'html.parser')
+
+    print(soup)
+
     for a in soup.select('a'):
         content = {}
         content['link'] = baseurl + a.get('href')
