@@ -62,7 +62,7 @@ def getOrgInfo(query):
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/news")
-def getOrgInfo(query):
+def getNews(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarCitizen API"}'
@@ -77,8 +77,8 @@ def getOrgInfo(query):
         "page": "1"
     }
     if(query):
-        qs = cgi.parse_qs(query)
         print qs
+        qs = cgi.parse_qs(query)
 
     logging.info("Action requested: news")
     result = rsi.getNews(query)
