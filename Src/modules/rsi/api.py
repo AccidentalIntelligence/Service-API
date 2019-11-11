@@ -80,6 +80,10 @@ def getNews(query):
         print(query)
         qs = cgi.parse_qs(query)
         print(qs)
+        for k in data.keys():
+            if k in qs:
+                data[k] = qs[k]
+    print(data)
 
     logging.info("Action requested: news")
     result = rsi.getNews(query)
