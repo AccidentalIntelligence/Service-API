@@ -22,7 +22,7 @@ def _getOrgInfo(sid):
 
 ####[ API Functions ]###########################################################
 
-@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.sfco.info'})
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/org")
 def getOrgInfo(query):
     global has_config
@@ -39,7 +39,7 @@ def getOrgInfo(query):
     result = rsi.getOrgInfo(query)
     return json.dumps(result)
 
-@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.sfco.info'})
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/citizen")
 def getOrgInfo(query):
     global has_config
