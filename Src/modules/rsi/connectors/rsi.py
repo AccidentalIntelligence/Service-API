@@ -34,6 +34,18 @@ def getCitizenInfo(handle):
         data = {"Error": "Citizen not found."}
     return data
 
+def searchCitizen(query):
+    baseurl = "https://robertsspaceindustries.com"
+
+    data = {
+        'q': query
+    }
+
+    res = simple_post(baseurl + "/api/contacts/search", data)
+
+    if res:
+        return json.loads(res)['data']['resultset']
+
 def getNews(data):
     baseurl = "https://robertsspaceindustries.com"
 

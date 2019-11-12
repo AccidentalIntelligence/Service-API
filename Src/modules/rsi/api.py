@@ -41,7 +41,7 @@ def getOrgInfo(query):
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/citizen")
-def getOrgInfo(query):
+def getCitizenInfo(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarCitizen API"}'
@@ -55,6 +55,19 @@ def getOrgInfo(query):
     query = qs['q'][0]
     result = rsi.getCitizenInfo(query)
     return json.dumps(result)
+
+@register_api("rsi/citizen/search")
+def searchCitizen(query):
+    global has_config
+    if not has_config:
+        return '{"error":"No configuration loaded for rsi API"}'
+    if query == "":
+        return '{"error":"empty query"}'
+    qs = cgi.parse_qs(query)
+    if not 'q' in qs:
+        return '{"error":"missing query string"}'
+    query = qs['q'][0]
+    result = rsi.searchCitizen(query)
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/news")
