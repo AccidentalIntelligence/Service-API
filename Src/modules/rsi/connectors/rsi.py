@@ -54,7 +54,10 @@ def searchCitizen(query):
         data = json.loads(res)['data']
         result['total'] = data['hits']['total']
         result['pages'] = data['pages_total']
-        result['members'] = data['members']
+        if data['hits']['total'] > 0:
+            result['members'] = data['members']
+        else:
+            result['members'] = []
         return result
 
 def getNews(data):
