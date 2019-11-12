@@ -117,8 +117,8 @@ def bs_parse_news(html, baseurl):
             content['link'] = baseurl + path
             content['id'] = path.split('/')[3].split('-')[0]
         else:
-            content['link'] = ""
-            content['id'] = "-1"
+            # skip articles with no link...
+            continue
         for div in a.select("div"):
             if 'background' in div.get('class'):
                 # Grab the image
