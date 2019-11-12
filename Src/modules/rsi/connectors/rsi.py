@@ -48,8 +48,14 @@ def searchCitizen(query):
     print(res)
     print
 
+    result = {}
+
     if res:
-        return json.loads(res)['data']
+        data = json.loads(res)['data']
+        result['total'] = data['hits']['total']
+        result['pages'] = data['pages_total']
+        result['members'] = data['members']
+        return result
 
 def getNews(data):
     baseurl = "https://robertsspaceindustries.com"
