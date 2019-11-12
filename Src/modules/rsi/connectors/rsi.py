@@ -43,8 +43,12 @@ def searchCitizen(query):
 
     res = simple_post(baseurl + "/api/contacts/search", data)
 
+    print
+    print(res)
+    print
+
     if res:
-        return json.loads(res)['data']['resultset']
+        return json.loads(res)['data']
 
 def getNews(data):
     baseurl = "https://robertsspaceindustries.com"
