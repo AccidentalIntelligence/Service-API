@@ -68,6 +68,7 @@ def searchCitizen(query):
         return '{"error":"missing query string"}'
     query = qs['q'][0]
     result = rsi.searchCitizen(query)
+    return json.dumps(result)
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/news")
