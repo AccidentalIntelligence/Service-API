@@ -38,10 +38,11 @@ def searchCitizen(query):
     baseurl = "https://robertsspaceindustries.com"
 
     data = {
-        'q': query
+        'community_id': "1"
+        'text': query
     }
 
-    res = simple_post(baseurl + "/api/contacts/search", data)
+    res = simple_post(baseurl + "/api/spectrum/search/member/autocomplete", data)
 
     print
     print(res)
