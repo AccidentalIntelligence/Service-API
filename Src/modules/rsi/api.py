@@ -56,6 +56,7 @@ def getCitizenInfo(query):
     result = rsi.getCitizenInfo(query)
     return json.dumps(result)
 
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/citizen/search")
 def searchCitizen(query):
     global has_config
