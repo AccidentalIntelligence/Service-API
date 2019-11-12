@@ -114,6 +114,7 @@ def bs_parse_news(html, baseurl):
         content = {}
         if a.get('href'):
             content['link'] = baseurl + a.get('href')
+            content['id'] = content['link'].split('/')[3].split('-')[0]
         else:
             content['link'] = ""
         for div in a.select("div"):
