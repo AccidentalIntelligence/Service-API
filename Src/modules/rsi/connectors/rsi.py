@@ -38,7 +38,7 @@ def searchCitizen(query):
     baseurl = "https://robertsspaceindustries.com"
 
     data = {
-        'community_id': "1"
+        'community_id': "1",
         'text': query
     }
 
