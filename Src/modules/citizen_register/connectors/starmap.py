@@ -21,10 +21,7 @@ https://robertsspaceindustries.com/api/starmap/celestial-objects/SOL
 
 data.resultset[].celestial_objects[]
     .type (PLANET)
-    .affiliation
-        .id
-        .name
-        .code
+    .affiliation.name
     .code
     .descirption
     .designation
@@ -36,6 +33,37 @@ data.resultset[].celestial_objects[]
     .sensor_economy
     .sensor_population
     .thumbnail.source
+
+Moon:
+
+data.resultset[].celestial_objects[]
+    .type (SATELLITE)
+    .affiliation (empty, match parent?)
+    .code
+    .description
+    .designation
+    .habitable
+    .id
+    .name
+    .subtype.name
+    .sensor_danger
+    .sensor_economy
+    .sensor_population
+
+LZs:
+
+data.resultset[].celestial_objects[]
+    .type (LZ)
+    .affiliation (empty, match parent?)
+    .code
+    .description
+    .designation
+    .habitable
+    .id
+    .name (if empty, match designation?)
+    .sensor_danger
+    .sensor_economy
+    .sensor_population
 
 https://robertsspaceindustries.com/api/starmap/celestial-objects/SOL.PLANETS.EARTH
 
@@ -85,7 +113,7 @@ def getPlanets(system):
     try:
         res = urllib2.urlopen(url, "")
         data = json.load(res)["data"]["resultset"][0]
-        affiliation = int(data['affiliation'][0]['id'])
+        affiliation = data['affiliation'][0]['name']
         data = data['celestial_objects']
     except:
         logging.error("Failed loading URL")
@@ -93,9 +121,12 @@ def getPlanets(system):
         affiliation = 0
     planets = {}
     for obj in data:
-        if obj['type'] == "PLANET":
+        if obj['type'] == "PLANET" or obj['type'] == "SATELLITE":
             planet = obj
-
+            if planet['affiliation']:
+                local_affiliation = planet['affiliation'][0]['name']
+            else:
+                local_affiliation = affiliation
             if planet['habitable']:
                 planet['habitable'] = 1
             else:
@@ -126,7 +157,7 @@ def getPlanets(system):
                 planet['economy'],
                 planet['population'],
                 planet['thumbnail'],
-                affiliation,
+                local_affiliation,
                 system
             )
             planets[planet['code']] = planetData
