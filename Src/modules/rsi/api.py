@@ -22,7 +22,7 @@ def _getOrgInfo(sid):
 
 ####[ API Functions ]###########################################################
 
-@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.sfco.info'})
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/org")
 def getOrgInfo(query):
     global has_config
@@ -31,8 +31,6 @@ def getOrgInfo(query):
     if query == "":
         return '{"error":"empty query"}'
     qs = cgi.parse_qs(query)
-    if not 'u' in qs:
-        return '{"error":"missing user token"}'
 
     logging.info("Action requested: org")
     if not 'q' in qs:
@@ -41,17 +39,15 @@ def getOrgInfo(query):
     result = rsi.getOrgInfo(query)
     return json.dumps(result)
 
-@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.sfco.info'})
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/citizen")
-def getOrgInfo(query):
+def getCitizenInfo(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarCitizen API"}'
     if query == "":
         return '{"error":"empty query"}'
     qs = cgi.parse_qs(query)
-    if not 'u' in qs:
-        return '{"error":"missing user token"}'
 
     logging.info("Action requested: citizen")
     if not 'q' in qs:
@@ -61,14 +57,29 @@ def getOrgInfo(query):
     return json.dumps(result)
 
 @set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
+@register_api("rsi/citizen/search")
+def searchCitizen(query):
+    global has_config
+    if not has_config:
+        return '{"error":"No configuration loaded for rsi API"}'
+    if query == "":
+        return '{"error":"empty query"}'
+    qs = cgi.parse_qs(query)
+    if not 'q' in qs:
+        return '{"error":"missing query string"}'
+    query = qs['q'][0]
+    result = rsi.searchCitizen(query)
+    return json.dumps(result)
+
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'*'})
 @register_api("rsi/news")
-def getOrgInfo(query):
+def getNews(query):
     global has_config
     if not has_config:
         return '{"error":"No configuration loaded for StarCitizen API"}'
 
     #{channel: "", series: "", type: "", text: "", sort: "publish_new", page: 7}
-    query = {
+    data = {
         "channel": "",
         "series": "",
         "type": "",
@@ -77,9 +88,17 @@ def getOrgInfo(query):
         "page": "1"
     }
     if(query):
+        print(query)
         qs = cgi.parse_qs(query)
-        print qs
+        print(qs)
+        for k in data.keys():
+            if k in qs:
+                if k == "page":
+                    data[k] = int(qs[k][0])
+                else:
+                    data[k] = qs[k][0]
+    print(data)
 
     logging.info("Action requested: news")
-    result = rsi.getNews(query)
+    result = rsi.getNews(data)
     return json.dumps(result)

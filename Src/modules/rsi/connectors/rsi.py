@@ -23,45 +23,60 @@ def getOrgInfo(sid):
         data = {"Error": "Org not found."}
     return data
 
-def getCitizenInfo(name):
+def getCitizenInfo(handle):
     baseurl = "https://robertsspaceindustries.com"
 
-    html = simple_get(baseurl + '/citizens/' + name)
+    html = simple_get(baseurl + '/citizens/' + handle)
     if html:
         data = bs_parse_citizen(html, baseurl)
+        data['handle'] = handle
     else:
         data = {"Error": "Citizen not found."}
     return data
 
-def getNews(query):
+def searchCitizen(query):
     baseurl = "https://robertsspaceindustries.com"
 
-    html = simple_post(baseurl + '/api/hub/getSeries', json.dumps(query))
+    data = {
+        'community_id': "1",
+        'text': query
+    }
 
-    if html:
-        data = json.loads(html)
-    else:
-        data = {"Error": "Couldn't fetch news."}
-    return getNewsItems()
-    #return data['data']
+    res = simple_post(baseurl + "/api/spectrum/search/member/autocomplete", data)
 
-def getNewsItems():
+    print
+    print(res)
+    print
+
+    result = {}
+
+    if res:
+        data = json.loads(res)['data']
+        result['total'] = data['hits']['total']
+        result['pages'] = data['pages_total']
+        if data['hits']['total'] > 0:
+            result['members'] = data['members']
+        else:
+            result['members'] = []
+        return result
+
+def getNews(data):
     baseurl = "https://robertsspaceindustries.com"
 
-    data = {"channel": "","series":"","type":"","text":"","sort":"publish_new","page":1}
+    #data = {"channel": "","series":"","type":"","text":"","sort":"publish_new","page":1}
 
     res = simple_post(baseurl + "/api/hub/getCommlinkItems", data)
 
     if res:
         return bs_parse_news(json.loads(res)['data'], baseurl)
     else:
-        return "Failed"
+        return "No Data"
 
     
 def bs_parse_org(html, baseurl):
     parsed = {}
     html = BeautifulSoup(html, 'html.parser')
-    
+
     for div in html.select('div'):
         if div.get('id') == 'organization':
             parsed['name'] = div.h1.get_text().split("/")[0].rstrip()
@@ -88,26 +103,60 @@ def bs_parse_citizen(html, baseurl):
 
             for d in div.select('div'):
                 if 'profile-content' in d.get('class'):
-                    parsed['CitizenNo'] = d.p.string.text
-                
-                if 'thumb' in d.get('class'):
-                    parsed['logo'] = baseurl + d.img['src']
+                    parsed['record'] = d.p.strong.text
 
-                if 'body' in d['class']:
-                    parsed['bio'] = d.get_text()
+                if 'bio' in d['class']:
+                    parsed['bio'] = d.div.get_text()
+                
+                if 'inner' in d['class']:
+                    if d.p and d.p.span and d.p.span.text == "Enlisted":
+                        parsed['enlisted'] = d.p.strong.get_text()
+
+                if 'profile' in d['class']:
+                    for d2 in d.select('div'):
+                        if 'info' in d2['class']:
+                            parsed['name'] = d2.p.strong.get_text()
+
+                        if 'thumb' in d2['class']:
+                            parsed['portrait'] = baseurl + d.img['src']
+                
+                if 'main-org' in d['class']:
+                    for d2 in d.select('div'):
+                        if 'thumb' in d2['class']:
+                            parsed['org'] = d2.a.get('href').split('/')[2]
+                        if 'info' in d2['class']:
+                            for p in d2.select('p'):
+                                if p.span and p.span.get_text() == "Organization rank":
+                                    parsed['orgRank'] = p.strong.get_text()
+
 
     return parsed
 
 def bs_parse_news(html, baseurl):
     parsed = []
     soup = BeautifulSoup(html, 'html.parser')
+
     for a in soup.select('a'):
         content = {}
-        content['link'] = baseurl + a.get('href')
+        if a.get('href'):
+            path = a.get('href')
+            content['link'] = baseurl + path
+            content['id'] = path.split('/')[3].split('-')[0]
+        else:
+            # skip articles with no link...
+            continue
         for div in a.select("div"):
             if 'background' in div.get('class'):
                 # Grab the image
-                content['image'] = baseurl + div.get('style').split("'")[1]
+                style = div.get('style')
+                if style:
+                    path = style.split("'")[1]
+                    if path.startswith("http"):
+                        content['image'] = path
+                    else:
+                        content['image'] = baseurl + style.split("'")[1]
+                else:
+                    content['image'] = baseurl + "/media/jkfgas4ihmfghr/channel_item_full/BookReport_FI_2.jpg"
             if 'title' in div.get('class'):
                 content['title'] = div.get_text()
             if 'time_ago' in div.get('class'):
@@ -117,10 +166,8 @@ def bs_parse_news(html, baseurl):
     return parsed
 
 def simple_get(url):
-    print url
     try:
         with closing(get(url, stream=True)) as resp:
-            print resp
             if is_good_response(resp):
                 return resp.content
             else:
@@ -130,10 +177,8 @@ def simple_get(url):
         return None
 
 def simple_post(url, data={}):
-    print url
     try:
-        with closing(post(url, data=data, stream=True)) as resp:
-            print resp
+        with closing(post(url=url, data=data, stream=True)) as resp:
             if is_good_response(resp):
                 return resp.content
             else:
@@ -144,7 +189,6 @@ def simple_post(url, data={}):
 
 def is_good_response(resp):
     content_type = resp.headers['Content-Type'].lower()
-    print content_type
     return (
         resp.status_code == 200
         and content_type is not None
