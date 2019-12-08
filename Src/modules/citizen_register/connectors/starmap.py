@@ -93,9 +93,9 @@ def getSystems():
             affiliation = 0
         sysdata = (
             system['code'],
-            system['name'].encode('utf-8', 'xmlcharrefreplace'),
+            system['name'].decode('ascii', 'ignore'),
             affiliation,
-            system['description'].encode('utf-8', 'xmlcharrefreplace'),
+            system['description'].decode('ascii', 'ignore'),
             system['type'],
             system['id']
         )
@@ -148,11 +148,11 @@ def getPlanets(system):
 
             planetData = (
                 planet['code'],
-                planet['name'].encode('utf-8', 'xmlcharrefreplace'),
-                planet['description'].encode('utf-8', 'xmlcharrefreplace'),
+                planet['name'].decode('ascii', 'ignore'),
+                planet['description'].decode('ascii', 'ignore'),
                 planet['type'],
                 planet['subtype']['name'],
-                planet['designation'].encode('utf-8', 'xmlcharrefreplace'),
+                planet['designation'].decode('ascii', 'ignore'),
                 planet['habitable'],
                 planet['danger'],
                 planet['economy'],
@@ -216,10 +216,10 @@ def getCities(planet, parent_afill):
 
             cityData = (
                 city['code'], # code
-                city['designation'].encode('utf-8', 'xmlcharrefreplace'), # name
+                city['designation'].decode('ascii', 'ignore'), # name
                 city['type'],
                 city['subtype'],
-                city['description'].encode('utf-8', 'xmlcharrefreplace'), # description
+                city['description'].decode('ascii', 'ignore'), # description
                 city['habitable'],
                 city['danger'], # danger
                 city['economy'],# economy
