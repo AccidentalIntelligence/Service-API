@@ -211,7 +211,7 @@ def getCities(planet, system):
                 city['type'],
                 city['subtype']['name'],
                 city['description'], # description
-                city['habitable']
+                city['habitable'],
                 city['danger'], # danger
                 city['economy'],# economy
                 city['population'],# population
