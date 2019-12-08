@@ -93,13 +93,13 @@ def getSystems():
             affiliation = 0
 
         try:
-            name = system['name'].replace(u'\u2019', "'").replace(u'\u016b', 'u')
+            name = system['name'].replace(u'\u2019', "'").replace(u'\u0101', "'").replace(u'\u016b', 'u')
             print "fixed: " + name
         except:
             name = system['name'].decode('ascii', 'ignore')
 
         try:
-            description = system['description'].replace(u'\u2019', "'").replace(u'\u016b', 'u'),
+            description = system['description'].replace(u'\u2019', "'").replace(u'\u0101', "'").replace(u'\u016b', 'u'),
         except:
             description = ""
 
@@ -161,10 +161,10 @@ def getPlanets(system):
             planetData = (
                 planet['code'],
                 planet['name'].replace(u'\u2019', "'").replace(u'\u016b', 'u'),
-                planet['description'].replace(u'\u2019', "'").replace(u'\u016b', 'u'),
+                planet['description'].replace(u'\u2019', "'").replace(u'\u0101', "'").replace(u'\u016b', 'u'),
                 planet['type'],
                 planet['subtype']['name'],
-                planet['designation'].replace(u'\u2019', "'").replace(u'\u016b', 'u'),
+                planet['designation'].replace(u'\u2019', "'").replace(u'\u0101', "'").replace(u'\u016b', 'u'),
                 planet['habitable'],
                 planet['danger'],
                 planet['economy'],
@@ -228,10 +228,10 @@ def getCities(planet, parent_afill):
 
             cityData = (
                 city['code'], # code
-                city['designation'].replace(u'\u2019', "'").replace(u'\u016b', 'u'), # name
+                city['designation'].replace(u'\u2019', "'").replace(u'\u0101', "'").replace(u'\u016b', 'u'), # name
                 city['type'],
                 city['subtype'],
-                city['description'].replace(u'\u2019', "'").replace(u'\u016b', 'u'), # description
+                city['description'].replace(u'\u2019', "'").replace(u'\u0101', "'").replace(u'\u016b', 'u'), # description
                 city['habitable'],
                 city['danger'], # danger
                 city['economy'],# economy
