@@ -218,7 +218,7 @@ def getCities(planet, parent_afill):
                 city['code'], # code
                 city['designation'], # name
                 city['type'],
-                city['subtype']['name'],
+                city['subtype'],
                 city['description'], # description
                 city['habitable'],
                 city['danger'], # danger
