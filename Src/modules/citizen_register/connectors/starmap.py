@@ -270,6 +270,12 @@ def getCities(planet, parent_afill):
             else:
                 description = ""
 
+            try:
+                city['id'] = int(city['id'])
+                city['parent_id'] = int(city['parent_id'])
+            except:
+                print "couldn't convert ids"
+
             cityData = (
                 city['code'], # code
                 designation,
@@ -282,7 +288,9 @@ def getCities(planet, parent_afill):
                 city['population'],# population
                 city['thumbnail'], # thumbnail
                 local_affiliation,
-                planet
+                planet,
+                city['id'],
+                city['parent_id']
             )
 
             cities[city['code']] = cityData
