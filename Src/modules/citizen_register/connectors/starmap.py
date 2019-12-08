@@ -95,6 +95,8 @@ def getSystems():
         try:
             name = system['name'].decode('utf-8').replace(u'\u2019', "'").replace(u'\u016b', 'u')
         except:
+            print system['name']
+            print system['name'].decode('utf-8')
             name = system['name'].decode('ascii', 'ignore')
 
         try:
