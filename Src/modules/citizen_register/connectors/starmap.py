@@ -255,9 +255,12 @@ def getCities(planet, parent_afill):
             for rep in replaces:
                 designation = designation.replace(rep[0], rep[1])
 
-            description = city['description']
-            for rep in replaces:
-                description = description.replace(rep[0], rep[1])
+            if city['description']:
+                description = city['description']
+                for rep in replaces:
+                    description = description.replace(rep[0], rep[1])
+            else:
+                description = ""
 
             cityData = (
                 city['code'], # code
