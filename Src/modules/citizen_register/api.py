@@ -21,6 +21,7 @@ import connectors.starmap as starmap
 
 def storeSystem(sysData, db):
     logging.debug("Adding System: ")
+    print sysData['name']
     sql = "INSERT INTO systems (code, name, affiliation, description, type, id) VALUES (%s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
