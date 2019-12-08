@@ -24,8 +24,7 @@ def storeSystem(sysData, db):
     logging.debug(sysData)
     sql = "INSERT INTO systems (code, name, affiliation, description, type, id) VALUES (%s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
-    print sql
-    #c.execute(sql, sysData)
+    c.execute(sql, sysData)
     db.commit()
 
 def storePlanet(planetData, db):
