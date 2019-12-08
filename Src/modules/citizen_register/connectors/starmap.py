@@ -93,13 +93,18 @@ def getSystems():
             affiliation = 0
 
         try:
+            name = system['name'].decode('utf-8').replace(u'\u2019', "'").replace(u'\u016b', 'u')
+        except:
+            name = system['name'].decode('ascii', 'ignore')
+
+        try:
             description = system['description'].decode('utf-8').replace(u'\u2019', "'").replace(u'\u016b', 'u'),
         except:
             description = ""
 
         sysdata = (
             system['code'],
-            name = system['name'].decode('utf-8').replace(u'\u2019', "'").replace(u'\u016b', 'u')
+            name,
             affiliation,
             description,
             system['type'],
