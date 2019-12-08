@@ -208,14 +208,14 @@ def getCities(planet, system):
             cityData = (
                 city['code'], # code
                 city['designation'], # name
-                city['type']
-                city['subtype']['name']
+                city['type'],
+                city['subtype']['name'],
                 city['description'], # description
                 city['habitable']
-                city['danger'] # danger
-                city['economy']# economy
-                city['population']# population
-                city['thumbnail'] # thumbnail
+                city['danger'], # danger
+                city['economy'],# economy
+                city['population'],# population
+                city['thumbnail'], # thumbnail
                 local_affiliation,
                 planet
             )
