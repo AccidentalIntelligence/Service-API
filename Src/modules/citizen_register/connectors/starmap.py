@@ -172,9 +172,12 @@ def getPlanets(system):
             for rep in replaces:
                 name = name.replace(rep[0], rep[1])
 
-            description = planet['description']
-            for rep in replaces:
-                description = description.replace(rep[0], rep[1])
+            if planet['description']:
+                description = planet['description']
+                for rep in replaces:
+                    description = description.replace(rep[0], rep[1])
+            else:
+                description = ""
 
             designation = planet['designation']
             for rep in replaces:
