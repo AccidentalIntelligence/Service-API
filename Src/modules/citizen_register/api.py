@@ -55,7 +55,7 @@ def updateDatastore():
     cities = {}
     for system in systems.keys():
         storeSystem(systems[system], db)
-        newPlanets = starmap.getPlanets(system, systems[system]['id'])
+        newPlanets = starmap.getPlanets(system, systems[system][5])
         for planet in newPlanets.keys():
             storePlanet(newPlanets[planet], db)
             newCities = starmap.getCities(planet, newPlanets[planet][11])
