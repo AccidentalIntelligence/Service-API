@@ -81,30 +81,30 @@ to load starmap: https://robertsspaceindustries.com/starmap?location=ELLIS.PLANE
 def getSystems():
     url = "https://robertsspaceindustries.com/api/starmap/bootup"
     systems = {}
-    try:
-        res = urllib2.urlopen(url,"")
-        data = json.load(res)["data"]
+    #try:
+    res = urllib2.urlopen(url,"")
+    data = json.load(res)["data"]
 
-        for system in data['systems']['resultset']:
+    for system in data['systems']['resultset']:
 
-            try:
-                affiliation = int(system['affiliation'][0]['id'])
-            except:
-                affiliation = 0
-            sysdata = (
-                system['code'],
-                system['name'].decode('utf-8'),
-                affiliation,
-                system['description'].decode('utf-8'),
-                system['type'],
-                system['id']
-            )
+        try:
+            affiliation = int(system['affiliation'][0]['id'])
+        except:
+            affiliation = 0
+        sysdata = (
+            system['code'],
+            system['name'].decode('utf-8'),
+            affiliation,
+            system['description'].decode('utf-8'),
+            system['type'],
+            system['id']
+        )
 
-            systems[system['code']] = sysdata
-        logging.debug("Systems Added: " + ", ".join(systems.keys()))
+        systems[system['code']] = sysdata
+    logging.debug("Systems Added: " + ", ".join(systems.keys()))
 
-    except:
-        logging.error("Failed to load systems")
+    #except:
+    #    logging.error("Failed to load systems")
     return systems
 
 def getPlanets(system):
