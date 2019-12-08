@@ -55,10 +55,10 @@ def updateDatastore():
         newPlanets = starmap.getPlanets(system)
         for planet in newPlanets.keys():
             storePlanet(newPlanets[planet], db)
-            newCities = starmap.getCities(planet, system)
+            newCities = starmap.getCities(planet, newPlanets[planet][11])
             for city in newCities.keys():
                 storeCity(newCities[city], db)
-            cities.update(starmap.getCities(planet, system))
+            cities.update(newCities)
         planets.update(newPlanets)
     result = {
         'success': 1,

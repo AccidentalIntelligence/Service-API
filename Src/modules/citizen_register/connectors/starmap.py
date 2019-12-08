@@ -166,13 +166,16 @@ def getPlanets(system):
     logging.debug("Planets added: " + ", ".join(planets.keys()))
     return planets
 
-def getCities(planet, system):
+def getCities(planet, parent_afill):
     url = "https://robertsspaceindustries.com/api/starmap/celestial-objects/" + planet
     print url
     try:
         res = urllib2.urlopen(url, "")
         data = json.load(res)["data"]["resultset"][0]
-        affiliation = data['affiliation'][0]['name']
+        if data['affiliation']:
+            affiliation = data['affiliation'][0]['name']
+        else:
+            affiliation = parent_afill
         data = data['children']
     except urllib2.URLError as e:
         print "Failed loading URL"
