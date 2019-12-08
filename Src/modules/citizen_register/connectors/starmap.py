@@ -93,7 +93,7 @@ def getSystems():
                 affiliation = 0
             sysdata = (
                 system['code'],
-                system['name'],
+                system['name'].encode('utf-8'),
                 affiliation,
                 system['description'].encode('utf-8'),
                 system['type'],
