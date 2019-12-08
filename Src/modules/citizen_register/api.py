@@ -30,7 +30,7 @@ def storeSystem(sysData, db):
 
 def storePlanet(planetData, db):
     logging.debug("Storing location: " + planetData[0])
-    sql = "INSERT INTO locations (code, name, description, type, subtype, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO locations (code, name, description, type, subtype, designation, habitable, danger, economy, population, thumbnail, affiliation, system, id, parent_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     c.execute(sql, planetData)
@@ -38,7 +38,7 @@ def storePlanet(planetData, db):
 
 def storeCity(cityData, db):
     logging.debug("Storing POI: " + cityData[0])
-    sql = "INSERT INTO pois (code, name, type, subtype, description, habitable, danger, economy, population, thumbnail, affiliation, planet) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO pois (code, name, type, subtype, description, habitable, danger, economy, population, thumbnail, affiliation, planet, id, parent_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     c.execute(sql, cityData)

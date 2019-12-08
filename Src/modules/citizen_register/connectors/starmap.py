@@ -165,6 +165,12 @@ def getPlanets(system):
                 print "Failed conversion..."
                 planet['danger'] = planet['economy'] = planet['population'] = 0
 
+            try:
+                planet['id'] = int(planet['id'])
+                planet['parent_id'] = int(planet['parent_id'])
+            except:
+                print "couldn't convert ids"
+
             if not planet['name']:
                 planet['name'] = planet['designation']
 
@@ -196,7 +202,9 @@ def getPlanets(system):
                 planet['population'],
                 planet['thumbnail'],
                 local_affiliation,
-                system
+                system,
+                planet['id'],
+                planet['parent_id']
             )
             planets[planet['code']] = planetData
             #c.execute(sql, planetData)
