@@ -93,10 +93,9 @@ def getSystems():
             affiliation = 0
 
         try:
-            name = system['name'].decode('utf-8').replace(u'\u2019', "'").replace(u'\u016b', 'u')
+            name = system['name'].replace(u'\u2019', "'").replace(u'\u016b', 'u')
+            print "fixed: " + name
         except:
-            print system['name']
-            print system['name'].decode('utf-8')
             name = system['name'].decode('ascii', 'ignore')
 
         try:
