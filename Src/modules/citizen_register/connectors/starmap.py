@@ -78,6 +78,13 @@ to load starmap: https://robertsspaceindustries.com/starmap?location=ELLIS.PLANE
 
 '''
 
+replaces = [
+    (u"\u2019", "'"),
+    (u"\u0101", "a"),
+    (u"\u016b", "u"),
+    (u"\u0113", "e")
+]
+
 def getSystems():
     url = "https://robertsspaceindustries.com/api/starmap/bootup"
     systems = {}
@@ -93,13 +100,16 @@ def getSystems():
             affiliation = 0
 
         try:
-            name = system['name'].replace(u'\u2019', "'").replace(u'\u0101', "a").replace(u'\u016b', 'u')
-            print "fixed: " + name
+            name = system['name']
+            for rep in replaces:
+                name = name.replace(rep[0], rep[1])
         except:
             name = system['name'].decode('ascii', 'ignore')
 
         try:
-            description = system['description'].replace(u'\u2019', "'").replace(u'\u0101', "a").replace(u'\u016b', 'u'),
+            description = system['description']
+            for rep in replaces:
+                description = description.replace(rep[0], rep[1])
         except:
             description = ""
 
@@ -158,13 +168,25 @@ def getPlanets(system):
             if not planet['name']:
                 planet['name'] = planet['designation']
 
+            name = planet['name']
+            for rep in replaces:
+                name = name.replace(rep[0], rep[1])
+
+            description = planet['description']
+            for rep in replaces:
+                description = description.replace(rep[0], rep[1])
+
+            designation = planet['designation']
+            for rep in replaces:
+                designation = designation.replace(rep[0], rep[1])
+
             planetData = (
                 planet['code'],
-                planet['name'].replace(u'\u2019', "'").replace(u'\u016b', 'u'),
-                planet['description'].replace(u'\u2019', "'").replace(u'\u0101', "a").replace(u'\u016b', 'u'),
+                name,
+                description,
                 planet['type'],
                 planet['subtype']['name'],
-                planet['designation'].replace(u'\u2019', "'").replace(u'\u0101', "a").replace(u'\u016b', 'u'),
+                designation,
                 planet['habitable'],
                 planet['danger'],
                 planet['economy'],
@@ -226,12 +248,20 @@ def getCities(planet, parent_afill):
             else:
                 city['subtype'] = ""
 
+            designation = city['designation']
+            for rep in replaces:
+                designation = designation.replace(rep[0], rep[1])
+
+            description = city['description']
+            for rep in replaces:
+                description = description.replace(rep[0], rep[1])
+
             cityData = (
                 city['code'], # code
-                city['designation'].replace(u'\u2019', "'").replace(u'\u0101', "a").replace(u'\u016b', 'u'), # name
+                designation,
                 city['type'],
                 city['subtype'],
-                city['description'].replace(u'\u2019', "'").replace(u'\u0101', "a").replace(u'\u016b', 'u'), # description
+                description,
                 city['habitable'],
                 city['danger'], # danger
                 city['economy'],# economy
