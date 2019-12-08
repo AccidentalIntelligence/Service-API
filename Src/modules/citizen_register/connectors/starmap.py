@@ -150,6 +150,7 @@ def getPlanets(system):
                 planet['code'],
                 planet['name'],
                 planet['description'],
+                planet['type'],
                 planet['subtype']['name'],
                 planet['designation'],
                 planet['habitable'],
@@ -171,6 +172,7 @@ def getCities(planet, system):
     try:
         res = urllib2.urlopen(url, "")
         data = json.load(res)["data"]["resultset"][0]
+        affiliation = data['affiliation'][0]['name']
         data = data['children']
     except:
         print "Failed loading URL"
@@ -178,14 +180,44 @@ def getCities(planet, system):
     cities = {}
     for obj in data:
         # TODO: Add in check for moons and such...
-        if obj['type'] == "LZ":
+        if obj['type'] == "LZ" or obj['type'] == 'MANMADE':
             city = obj
+
+            if city['affiliation']: 
+                local_affiliation = city['affiliation'][0]['name']
+            else:
+                local_affiliation = affiliation
+
+            if city['habitable']:
+                city['habitable'] = 1
+            else:
+                city['habitable'] = 0
+            try:
+                city['danger'] = int(city['sensor_danger'])
+                city['economy'] = int(city['sensor_economy'])
+                city['population'] = int(city['sensor_population'])
+            except:
+                print "Failed conversion..."
+                city['danger'] = city['economy'] = city['population'] = 0
+
+            if 'thumbnail' in planet.keys():
+                planet['thumbnail'] = planet['thumbnail']['source']
+            else:
+                planet['thumbnail'] = ""
+
             cityData = (
-                city['code'],
-                city['designation'],
-                city['description'],
-                planet,
-                system
+                city['code'], # code
+                city['designation'], # name
+                city['type']
+                city['subtype']['name']
+                city['description'], # description
+                city['habitable']
+                city['danger'] # danger
+                city['economy']# economy
+                city['population']# population
+                city['thumbnail'] # thumbnail
+                local_affiliation,
+                planet
             )
 
             cities[city['code']] = cityData

@@ -27,15 +27,16 @@ def storeSystem(sysData, db):
     db.commit()
 
 def storePlanet(planetData, db):
-    logging.debug("Storing planet: " + planetData[0])
-    sql = "INSERT INTO location (code, name, description, type, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    logging.debug("Storing location: " + planetData[0])
+    sql = "INSERT INTO locations (code, name, description, type, subtype, designation, habitable, danger, economy, population, thumbnail, affiliation, system) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     c.execute(sql, planetData)
     db.commit()
 
 def storeCity(cityData, db):
-    sql = "INSERT INTO homes (code, name, description, planet, system) VALUES (%s, %s, %s, %s, %s)"
+    logging.debug("Storing POI: " + cityData[0])
+    sql = "INSERT INTO pois (code, name, type, subtype, description, habitable, danger, economy, population, thumbnail, affiliation, planet) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
 
     c.execute(sql, cityData)
@@ -73,8 +74,8 @@ def updateDatastore():
 
 ####[ API Functions ]###########################################################
 
-#@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
-#@register_api("registry")
+@set_headers({'Content-Type':'application/json','Access-Control-Allow-Origin':'https://www.capnflint.com'})
+@register_api("registry")
 def getResponse(query):
     global has_config
     if not has_config:
