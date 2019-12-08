@@ -174,8 +174,9 @@ def getCities(planet, system):
         data = json.load(res)["data"]["resultset"][0]
         affiliation = data['affiliation'][0]['name']
         data = data['children']
-    except:
+    except urllib2.URLError as e:
         print "Failed loading URL"
+        print e.reason
         data = []
     cities = {}
     for obj in data:
@@ -200,10 +201,10 @@ def getCities(planet, system):
                 print "Failed conversion..."
                 city['danger'] = city['economy'] = city['population'] = 0
 
-            if 'thumbnail' in planet.keys():
-                planet['thumbnail'] = planet['thumbnail']['source']
+            if 'thumbnail' in city.keys():
+                city['thumbnail'] = city['thumbnail']['source']
             else:
-                planet['thumbnail'] = ""
+                city['thumbnail'] = ""
 
             cityData = (
                 city['code'], # code
