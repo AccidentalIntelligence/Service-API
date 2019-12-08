@@ -209,6 +209,11 @@ def getCities(planet, parent_afill):
             else:
                 city['thumbnail'] = ""
 
+            if city['subtype']:
+                city['subtype'] = city['subtype']['name']
+            else:
+                city['subtype'] = ""
+
             cityData = (
                 city['code'], # code
                 city['designation'], # name
