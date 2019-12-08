@@ -129,7 +129,7 @@ def getSystems():
     #    logging.error("Failed to load systems")
     return systems
 
-def getPlanets(system):
+def getPlanets(system, sys_id):
     url = "https://robertsspaceindustries.com/api/starmap/star-systems/" + system
     print url
     try:
@@ -164,6 +164,9 @@ def getPlanets(system):
             except:
                 print "Failed conversion..."
                 planet['danger'] = planet['economy'] = planet['population'] = 0
+
+            if not planet['parent_id']:
+                planet['parent_id'] = sys_id
 
             try:
                 planet['id'] = int(planet['id'])
