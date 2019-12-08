@@ -21,9 +21,9 @@ import connectors.starmap as starmap
 
 def storeSystem(sysData, db):
     logging.debug("Adding System: ")
-    logging.debug(sysData)
     sql = "INSERT INTO systems (code, name, affiliation, description, type, id) VALUES (%s, %s, %s, %s, %s, %s)"
     c = db.cursor(MySQLdb.cursors.DictCursor)
+
     c.execute(sql, sysData)
     db.commit()
 
@@ -49,6 +49,7 @@ def clearData(db):
 def updateDatastore():
     db = MySQLdb.connect(host=config.dbhost,user=config.dbuser,passwd=config.dbpass,db=config.dbname, use_unicode=True, charset="utf8")
     systems = starmap.getSystems()
+    print systems
     planets = {}
     cities = {}
     for system in systems.keys():
