@@ -75,6 +75,7 @@ def getStreamStatus(channel):
     if len(res) == 0 or now - res[0]['last_checked'] > 60:
         logging.debug("Channel not in DB, or record too old. Getting new status from Twitch API")
         result = connector.getStreamStatus(channel)
+        print result
         if result and result['channel'] != "":
             storeStatus(result, now)
         else:
